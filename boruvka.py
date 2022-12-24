@@ -6,7 +6,7 @@ from typing import List
 
 
 class Graph:
-    def __init__(self, vertices: List[str], edges: List[tuple]):
+    def __init__(self, vertices: set, edges: List[tuple]):
         self.vertices = vertices
         # [node_from, node_to, weight]
         self.edges = edges
@@ -20,7 +20,7 @@ class Graph:
         for edge in edges:
             self.adjacency_list[edge[0]][edge[1]] = edge[2]
 
-    def get_vertices(self) -> List[str]:
+    def get_vertices(self) -> set:
         return self.vertices
 
     def get_edges(self) -> List[tuple]:
@@ -30,16 +30,19 @@ class Graph:
         return self.adjacency_list
 
     def add_vertex(self, vertex: str) -> bool:
-        self.vertices.append(vertex)
+        if vertex in self.vertices:
+            raise ValueError(f"Vertex {vertex} already exists")
+
+        self.vertices.add(vertex)
         return True
 
     def add_edge(self, node_from: str, node_to: str, weight: int) -> bool:
-        if node_to not in self.adjacency_list[node_from]:
-            self.adjacency_list[node_from][node_to] = weight
-            self.edges.append((node_from, node_to, weight))
-            return True
-        else:
+        if node_to in self.adjacency_list[node_from]:
             raise ValueError(f"An edge from {node_from} to {node_to} already exists")
+
+        self.adjacency_list[node_from][node_to] = weight
+        self.edges.append((node_from, node_to, weight))
+        return True
 
 
 class Boruvka:
