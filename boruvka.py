@@ -5,7 +5,7 @@ from typing import List
 
 
 class Graph:
-    def __init__(self, vertices: set, edges: List[tuple]):
+    def __init__(self, vertices: set = set(), edges: List[tuple] = []):
         self.vertices = vertices
         # [(node1, node2, weight)]
         self.edges = edges
@@ -38,7 +38,29 @@ class Graph:
 
 
 def main():
-    pass
+    # https://www.statisticshowto.com/boruvkas-algorithm/
+    graph1 = Graph()
+    for vertex in ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]:
+        graph1.add_vertex(vertex)
+    graph1.add_edge("A", "B", 1)
+    graph1.add_edge("A", "E", 7)
+    graph1.add_edge("B", "C", 2)
+    graph1.add_edge("B", "F", 8)
+    graph1.add_edge("B", "G", 9)
+    graph1.add_edge("C", "D", 3)
+    graph1.add_edge("C", "H", 1)
+    graph1.add_edge("D", "H", 2)
+    graph1.add_edge("E", "F", 4)
+    graph1.add_edge("E", "I", 4)
+    graph1.add_edge("E", "J", 8)
+    graph1.add_edge("F", "G", 5)
+    graph1.add_edge("F", "J", 3)
+    graph1.add_edge("F", "K", 4)
+    graph1.add_edge("G", "H", 6)
+    graph1.add_edge("G", "K", 9)
+    graph1.add_edge("H", "L", 5)
+    graph1.add_edge("K", "L", 6)
+    graph1.find_mst_with_boruvka()
 
 
 if __name__ == "__main__":
