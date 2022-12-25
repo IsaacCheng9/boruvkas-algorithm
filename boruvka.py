@@ -25,6 +25,11 @@ class Graph:
         return True
 
     def add_edge(self, node1: str, node2: str, weight: int) -> bool:
+        if node1 not in self.vertices:
+            raise ValueError(f"Vertex {node1} does not exist")
+        if node2 not in self.vertices:
+            raise ValueError(f"Vertex {node2} does not exist")
+
         self.edges.append((node1, node2, weight))
         return True
 
