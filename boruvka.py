@@ -9,6 +9,7 @@ class Graph:
         self.vertices = vertices
         # [(node1, node2, weight)]
         self.edges = edges
+        self.components = {}
 
     def get_vertices(self) -> set:
         return self.vertices
@@ -27,12 +28,7 @@ class Graph:
         self.edges.append((node1, node2, weight))
         return True
 
-
-class Boruvka:
-    def __init__(self, graph: Graph):
-        self.graph = graph
-
-    def find_mst(self):
+    def find_mst_with_boruvka(self):
         pass
 
 
