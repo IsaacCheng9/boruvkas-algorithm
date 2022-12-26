@@ -5,30 +5,30 @@ from typing import List
 
 
 class Graph:
-    def __init__(self, vertices: set = set(), edges: List[tuple] = []):
-        self.vertices = vertices
+    def __init__(self, nodes: set = set(), edges: List[tuple] = []):
+        self.nodes = nodes
         # [(node1, node2, weight)]
         self.edges = edges
         self.components = {}
 
-    def get_vertices(self) -> set:
-        return self.vertices
+    def get_nodes(self) -> set:
+        return self.nodes
 
     def get_edges(self) -> List[tuple]:
         return self.edges
 
-    def add_vertex(self, vertex: str) -> bool:
-        if vertex in self.vertices:
-            raise ValueError(f"Vertex {vertex} already exists")
+    def add_node(self, node: str) -> bool:
+        if node in self.nodes:
+            raise ValueError(f"Node {node} already exists")
 
-        self.vertices.add(vertex)
+        self.nodes.add(node)
         return True
 
     def add_edge(self, node1: str, node2: str, weight: int) -> bool:
-        if node1 not in self.vertices:
-            raise ValueError(f"Vertex {node1} does not exist")
-        if node2 not in self.vertices:
-            raise ValueError(f"Vertex {node2} does not exist")
+        if node1 not in self.nodes:
+            raise ValueError(f"Node {node1} does not exist")
+        if node2 not in self.nodes:
+            raise ValueError(f"Node {node2} does not exist")
 
         self.edges.append((node1, node2, weight))
         return True
@@ -40,8 +40,8 @@ class Graph:
 def main():
     # https://www.statisticshowto.com/boruvkas-algorithm/
     graph1 = Graph()
-    for vertex in ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]:
-        graph1.add_vertex(vertex)
+    for node in ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]:
+        graph1.add_node(node)
     graph1.add_edge("A", "B", 1)
     graph1.add_edge("A", "E", 7)
     graph1.add_edge("B", "C", 2)
