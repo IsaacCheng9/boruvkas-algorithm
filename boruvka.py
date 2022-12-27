@@ -72,6 +72,33 @@ class Graph:
             self.components[node2_component] = node1_component
             component_size[node1_component] += component_size[node2_component]
 
+    def update_min_weight_edge_for_components(self, min_weight_edges, edge):
+        """
+        Update the minimum weight edge if the given edge is the smallest so far
+        for either of the nodes' components.
+
+        Args:
+            min_weight_edges: A list of the minimum weight edge for each node's
+                              component.
+            edge: The edge to check, in the form (node1, node2, weight).
+        """
+        node1, node2, weight = edge
+        node1_component = self.components[node1]
+        node2_component = self.components[node2]
+
+        if node1_component != node2_component:
+            if (
+                min_weight_edges[node1_component] == -1
+                or weight < min_weight_edges[node1_component][2]
+            ):
+                min_weight_edges[node1_component] = edge
+
+            if (
+                min_weight_edges[node2_component] == -1
+                or weight < min_weight_edges[node2_component][2]
+            ):
+                min_weight_edges[node2_component] = edge
+
     def find_mst_with_boruvka(self) -> int:
         """
         Find the minimum spanning tree of this graph using Boruvka's algorithm.
@@ -93,41 +120,26 @@ class Graph:
         # means the graph is connected.
         while num_of_components > 1:
             # Reset the min_weight_edge list to find the next minimum weight.
-            min_weight_edge = [-1] * self.num_nodes
-
+            min_weight_edges = [-1] * self.num_nodes
+            # Find the minimum weight edge for each component so we have the
+            # optimal candidate edges to add to the MST.
             for edge in self.edges:
-                node1, node2, weight = edge
-                node1_component = self.components[node1]
-                node2_component = self.components[node2]
-
-                if node1_component != node2_component:
-                    if (
-                        min_weight_edge[node1_component] == -1
-                        or weight < min_weight_edge[node1_component][2]
-                    ):
-                        min_weight_edge[node1_component] = edge
-
-                    if (
-                        min_weight_edge[node2_component] == -1
-                        or weight < min_weight_edge[node2_component][2]
-                    ):
-                        min_weight_edge[node2_component] = edge
+                self.update_min_weight_edge_for_components(min_weight_edges, edge)
 
             for node in self.nodes:
-                if min_weight_edge[node] != -1:
-                    node1 = min_weight_edge[node][0]
-                    node2 = min_weight_edge[node][1]
-                    weight = min_weight_edge[node][2]
+                # If the node isn't in a component, skip it.
+                if min_weight_edges[node] == -1:
+                    continue
 
-                    # If the nodes are not in the same component, add the edge
-                    # to the MST and union the components.
-                    if self.components[node1] != self.components[node2]:
-                        mst_weight += weight
-                        self.union(component_size, node1, node2)
-                        num_of_components -= 1
-                        print(
-                            f"Added edge {node1} - {node2} with weight {weight} to MST"
-                        )
+                node1, node2, weight = min_weight_edges[node]
+                # If the nodes are not in the same component, add the edge
+                # to the MST and union the components.
+                if self.components[node1] != self.components[node2]:
+                    self.union(component_size, node1, node2)
+                    mst_weight += weight
+                    # We have one less component as we've merged two.
+                    num_of_components -= 1
+                    print(f"Added edge {node1} - {node2} with weight {weight} to MST")
 
         return mst_weight
 
