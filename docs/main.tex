@@ -25,7 +25,7 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
 \section{Limitations and Constraints}
 
 \section{Real-World Applications}
-While there have been several other algorithms that are more optimal for finding a minimum spanning tree depending on the input graph, Borůvka's algorithm has become increasingly popular because it is easy to parallelise and is therefore well-suited to distributed computing \cite{mariano2015generic}.
+There are several other algorithms that are more optimal for finding a minimum spanning tree depending on the input graph -- Prim's algorithm is faster for dense graphs, and Kruskal's algorithm is faster for sparse graphs \cite{bazlamaccci2001minimum}. However, this only considers sequential implementations of the algorithms -- Borůvka's algorithm has become increasingly popular because it is easy to parallelise and is therefore well-suited to distributed computing \cite{mariano2015generic}. As it starts with multiple components and seeks to combine them with the shortest edge, it can be easily parallelised by assigning each component to a different processor.
 
 \newpage
 \bibliography{main}
