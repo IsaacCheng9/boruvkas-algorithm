@@ -110,6 +110,46 @@ class Graph:
                 ):
                     min_weight_edges[node2_component] = edge
 
+    def connect_components_with_min_weights(
+        self,
+        component_size: List[int],
+        min_weight_edges: List[int],
+        mst_edges: List[Tuple[int, int, int]],
+        mst_weight: int,
+        num_components: int,
+    ) -> Tuple[int, int]:
+        """
+        Connect any components that have a minimum weight edge between them to
+        reduce the number of components.
+
+        Args:
+            component_size: A list of the number of nodes in each component.
+            min_weight_edges: A list of the minimum weight edge for each node.
+            mst_edges: A list of edges in the MST.
+            mst_weight: The weight of the MST that is being built.
+            num_components: The number of components in the graph.
+
+        Returns:
+            The weight of the MST and number of components in the graph.
+        """
+        for node in self.nodes:
+            # If the node isn't in a component, skip it.
+            if min_weight_edges[node] == -1:
+                continue
+
+            node1, node2, weight = min_weight_edges[node]
+            # If the other node isn't in the same component, connect and
+            # merge them in the MST using the minimum weight edge.
+            if self.components[node1] != self.components[node2]:
+                self.merge_components(component_size, node1, node2)
+                mst_weight += weight
+                mst_edges.append((node1, node2, weight))
+                # We have one less component as we've merged two.
+                num_components -= 1
+                print(f"Added edge {node1} - {node2} with weight {weight} to MST.")
+
+        return mst_weight, num_components
+
     def find_mst_with_boruvka(self) -> Tuple[int, List[tuple]]:
         """
         Find the minimum spanning tree of this graph using Boruvka's algorithm.
@@ -126,31 +166,27 @@ class Graph:
         # Initially, each node is its own component as the graph is
         # disconnected.
         component_size = [1] * self.num_nodes
-        num_of_components = self.num_nodes
+        num_components = self.num_nodes
 
         # Continue adding edges until there is only one component, as this
         # means the graph is connected.
-        while num_of_components > 1:
-            # Reset the min_weight_edge list to find the next minimum weight.
+        while num_components > 1:
+            # Reset the min_weight_edge list to find the next minimum edge of
+            # each node.
             min_weight_edges = [-1] * self.num_nodes
             # Find the minimum weight edge for each component, so we have the
             # optimal candidate edges to add to the MST.
             self.update_min_weight_edges_for_components(min_weight_edges)
-
-            for node in self.nodes:
-                # If the node isn't in a component, skip it.
-                if min_weight_edges[node] == -1:
-                    continue
-                node1, node2, weight = min_weight_edges[node]
-                # If the other node isn't in the same component, connect and
-                # merge them in the MST using the minimum weight edge.
-                if self.components[node1] != self.components[node2]:
-                    self.merge_components(component_size, node1, node2)
-                    mst_weight += weight
-                    mst_edges.append((node1, node2, weight))
-                    # We have one less component as we've merged two.
-                    num_of_components -= 1
-                    print(f"Added edge {node1} - {node2} with weight {weight} to MST.")
+            # Connect components where possible, and update the MST weight and
+            # number of components accordingly so we can stop when the graph is
+            # connected.
+            mst_weight, num_components = self.connect_components_with_min_weights(
+                component_size,
+                min_weight_edges,
+                mst_edges,
+                mst_weight,
+                num_components,
+            )
 
         print("Successfully found MST with Boruvka's algorithm.")
         return mst_weight, mst_edges
