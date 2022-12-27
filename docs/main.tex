@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{geometry}
+\usepackage[ruled,vlined]{algorithm2e}
 
 \geometry{margin=2.0cm}
 
@@ -43,6 +44,16 @@ Borůvka's algorithm is a greedy algorithm that finds a minimum spanning tree fo
 The algorithm uses a divide-and-conquer approach that is based on the idea of building a forest of trees, and is a hybrid of Kruskal's and Prim's algorithms to find a minimum spanning tree. At each step, it finds the cheapest edge that connects two different trees and combines the trees into a single tree. Borůvka's algorithm continues until there is only one tree left, which is the minimum spanning tree. Each iteration of the algorithm reduces the number of trees to at most half of the previous number of trees, so it runs in logarithmic time.
 
 \section{Pseudocode}
+
+\begin{algorithm}
+    \caption{Borůvka's Algorithm}
+    \SetKwInOut{Input}{Input}
+    \SetKwInOut{Output}{Output}
+    
+    \Input{A connected, edge-weighted undirected graph $G = (V, E)$}
+    \Output{$T$, a minimum spanning tree of $G$}
+
+\end{algorithm}
 
 \section{Time and Space Complexity Analysis}
 
