@@ -81,53 +81,52 @@ class Graph:
             self.components[node2_component] = node1_component
             component_sizes[node1_component] += component_sizes[node2_component]
 
-    def update_min_weight_edges_per_node_for_components(
-        self, min_weight_edges_per_node: List[int]
-    ):
+    def update_shortest_edge_per_node(self, shortest_connecting_edge: List[int]):
         """
-        Check each edge and update the minimum weight edge for each node's
-        component if the edge is smaller than the current minimum weight edge.
+        Check each edge and update the shortest edge for each node if it
+        connects two components together.
 
         Args:
-            min_weight_edges_per_node: A list of the minimum weight edge for
-                                       each node's component.
+            shortest_connecting_edge: A list with the shortest edge for each
+                                      node that connects to a new component.
         """
         for edge in self.edges:
             node1, node2, weight = edge
             node1_component = self.components[node1]
             node2_component = self.components[node2]
 
-            # If the nodes are in different components and the edge is smaller than
-            # the current minimum weight edge for either component, update them.
+            # If the nodes are in different components and the edge is smaller
+            # than the current minimum weight edge for either component, update
+            # them.
             if node1_component != node2_component:
                 if (
-                    min_weight_edges_per_node[node1_component] == -1
-                    or weight < min_weight_edges_per_node[node1_component][2]
+                    shortest_connecting_edge[node1_component] == -1
+                    or weight < shortest_connecting_edge[node1_component][2]
                 ):
-                    min_weight_edges_per_node[node1_component] = edge
+                    shortest_connecting_edge[node1_component] = edge
 
                 if (
-                    min_weight_edges_per_node[node2_component] == -1
-                    or weight < min_weight_edges_per_node[node2_component][2]
+                    shortest_connecting_edge[node2_component] == -1
+                    or weight < shortest_connecting_edge[node2_component][2]
                 ):
-                    min_weight_edges_per_node[node2_component] = edge
+                    shortest_connecting_edge[node2_component] = edge
 
-    def connect_components_with_min_weights(
+    def connect_components_with_shortest_edges(
         self,
         component_sizes: List[int],
-        min_weight_edges_per_node: List[int],
+        shortest_connecting_edge: List[int],
         mst_edges: List[Tuple[int, int, int]],
         mst_weight: int,
         num_components: int,
     ) -> Tuple[int, int]:
         """
-        Connect any components that have a minimum weight edge between them to
-        reduce the number of components.
+        Connect any components with the shortest edge between them to reduce
+        the number of components.
 
         Args:
             component_sizes: A list of the number of nodes in each component.
-            min_weight_edges_per_node: A list of the minimum weight edge for
-                                       each node.
+            shortest_connecting_edge: A list with the shortest edge for each
+                                      node.
             mst_edges: A list of edges in the MST.
             mst_weight: The weight of the MST that is being built.
             num_components: The number of components in the graph.
@@ -137,12 +136,12 @@ class Graph:
         """
         for node in self.nodes:
             # If the node isn't in a component, skip it.
-            if min_weight_edges_per_node[node] == -1:
+            if shortest_connecting_edge[node] == -1:
                 continue
 
-            node1, node2, weight = min_weight_edges_per_node[node]
+            node1, node2, weight = shortest_connecting_edge[node]
             # If the other node isn't in the same component, connect and
-            # merge them in the MST using the minimum weight edge.
+            # merge them in the MST using the shortest edge.
             if self.components[node1] != self.components[node2]:
                 self.merge_components(component_sizes, node1, node2)
                 mst_weight += weight
@@ -174,20 +173,17 @@ class Graph:
         # Continue adding edges until there is only one component, as this
         # means the graph is connected.
         while num_components > 1:
-            # Reset the min_weight_edge list to find the next minimum edge of
-            # each node.
-            min_weight_edges_per_node = [-1] * self.num_nodes
-            # Find the minimum weight edge for each component, so we have the
-            # optimal candidate edges to add to the MST.
-            self.update_min_weight_edges_per_node_for_components(
-                min_weight_edges_per_node
-            )
+            # Reset the list to find the shortest edge of each node.
+            shortest_connecting_edge = [-1] * self.num_nodes
+            # Find the shortest edge for each component, so we have the optimal
+            # candidate edges to add to the MST.
+            self.update_shortest_edge_per_node(shortest_connecting_edge)
             # Connect components where possible, and update the MST weight and
             # number of components accordingly so we can stop when the graph is
             # connected.
-            mst_weight, num_components = self.connect_components_with_min_weights(
+            mst_weight, num_components = self.connect_components_with_shortest_edges(
                 component_sizes,
-                min_weight_edges_per_node,
+                shortest_connecting_edge,
                 mst_edges,
                 mst_weight,
                 num_components,
