@@ -5,13 +5,17 @@ from typing import List, Tuple
 
 
 class Graph:
+    """
+    A graph that contains nodes and edges between nodes.
+    """
+
     def __init__(self, num_nodes: int):
         """
         Args:
             num_nodes: The number of nodes to generate in the graph.
         """
         self.num_nodes = num_nodes
-        self.nodes = [node for node in range(num_nodes)]
+        self.nodes = list(range(num_nodes))
         # [(node1, node2, weight)]
         self.edges = []
         # {node: parent} to represent the component trees. Initially, each node
