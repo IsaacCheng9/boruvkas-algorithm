@@ -76,7 +76,9 @@ class Graph:
             self.components[node2_component] = node1_component
             component_size[node1_component] += component_size[node2_component]
 
-    def update_min_weight_edge_for_components(self, min_weight_edges, edge):
+    def update_min_weight_edge_for_components(
+        self, min_weight_edges: List[int], edge: Tuple[int, int, int]
+    ):
         """
         Update the minimum weight edge if the given edge is the smallest so far
         for either of the nodes' components.
@@ -90,6 +92,8 @@ class Graph:
         node1_component = self.components[node1]
         node2_component = self.components[node2]
 
+        # If the nodes are in different components and the edge is smaller than
+        # the current minimum weight edge for either component, update them.
         if node1_component != node2_component:
             if (
                 min_weight_edges[node1_component] == -1
