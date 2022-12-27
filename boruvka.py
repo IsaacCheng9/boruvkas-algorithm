@@ -58,6 +58,16 @@ class Graph:
         self.edges.append((node1, node2, weight))
         return True
 
+    def print_graph_info(self) -> None:
+        """
+        Print the graph's nodes and edges.
+        """
+        print(f"Nodes: {self.nodes}")
+        print("Edges (node1, node2, weight):")
+        for edge in sorted(self.edges):
+            print(f"    {edge}")
+        print()
+
     def merge_components(
         self, component_sizes: List[int], node1: int, node2: int
     ) -> None:
@@ -162,13 +172,8 @@ class Graph:
         Returns:
             The weight and list of edges of the minimum spanning tree.
         """
-        print(
-            "\nFinding MST with Boruvka's algorithm for the following graph:\n"
-            f"Nodes: {self.nodes}\nEdges (node1, node2, weight):"
-        )
-        for edge in self.edges:
-            print(f"    {edge}")
-        print()
+        print("\nFinding MST with Boruvka's algorithm for the following graph:")
+        self.print_graph_info()
 
         mst_weight = 0
         mst_edges = []
@@ -196,7 +201,12 @@ class Graph:
                 num_components,
             )
 
-        print("Successfully found MST with Boruvka's algorithm.")
+        print("\nSuccessfully found MST with Boruvka's algorithm.")
+        print(f"MST weight: {mst_weight}")
+        print("MST edges (node1, node2, weight):")
+        for edge in sorted(mst_edges):
+            print(f"    {edge}")
+
         return mst_weight, mst_edges
 
 
@@ -217,11 +227,7 @@ def main():
     graph1.add_edge(5, 8, 12)
     graph1.add_edge(6, 7, 1)
     graph1.add_edge(7, 8, 3)
-    mst_weight, mst_edges = graph1.find_mst_with_boruvka()
-    print(f"\nMST weight: {mst_weight}")
-    print("MST edges (node1, node2, weight):")
-    for edge in mst_edges:
-        print(f"    {edge}")
+    graph1.find_mst_with_boruvka()
 
 
 if __name__ == "__main__":
