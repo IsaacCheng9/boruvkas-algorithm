@@ -6,8 +6,12 @@ from typing import List
 
 class Graph:
     def __init__(self, num_nodes: int):
+        """
+        Args:
+            num_nodes: The number of nodes to generate in the graph.
+        """
         self.num_nodes = num_nodes
-        self.nodes = [node for node in range(1, num_nodes + 1)]
+        self.nodes = [node for node in range(num_nodes)]
         # [(node1, node2, weight)]
         self.edges = []
         # {node: parent} to represent the component trees. Initially, each node
@@ -15,12 +19,32 @@ class Graph:
         self.components = {node: node for node in self.nodes}
 
     def get_nodes(self) -> list:
+        """
+        Return a list of nodes in this graph.
+        """
         return self.nodes
 
     def get_edges(self) -> List[tuple]:
+        """
+        Return a list of edges in this graph.
+        """
         return self.edges
 
     def add_edge(self, node1: int, node2: int, weight: int) -> bool:
+        """
+        Add an edge to this graph from node1 to node2 with a given weight.
+
+        Args:
+            node1: The first node to connect the edge with.
+            node2: The second node to connect the edge with.
+            weight: The weight of the edge to add.
+
+        Raises:
+            ValueError: When either node1 or node2 do not exist in this graph.
+
+        Returns:
+            True if the edge was added successfully.
+        """
         if node1 not in self.nodes:
             raise ValueError(f"Node {node1} does not exist")
         if node2 not in self.nodes:
@@ -29,8 +53,84 @@ class Graph:
         self.edges.append((node1, node2, weight))
         return True
 
-    def find_mst_with_boruvka(self):
-        pass
+    def union(self, component_size: List[int], node1: int, node2: int) -> None:
+        """
+        Union the components of node1 and node2.
+
+        Args:
+            component_size: A list of the size of each component.
+            node1: The first node to union the components of.
+            node2: The second node to union the components of.
+        """
+        node1_component = self.components[node1]
+        node2_component = self.components[node2]
+
+        if component_size[node1_component] < component_size[node2_component]:
+            self.components[node1_component] = node2_component
+            component_size[node2_component] += component_size[node1_component]
+        else:
+            self.components[node2_component] = node1_component
+            component_size[node1_component] += component_size[node2_component]
+
+    def find_mst_with_boruvka(self) -> int:
+        """
+        Find the minimum spanning tree of this graph using Boruvka's algorithm.
+
+        Returns:
+            The weight of the minimum spanning tree.
+        """
+        print(
+            "\nFinding MST with Boruvka's algorithm for the following graph:\n"
+            f"Nodes: {self.nodes}\nEdges (node1, node2, weight):\n    {self.edges}\n"
+        )
+
+        mst_weight = 0
+        min_weight_edge = [-1] * self.num_nodes
+        # Initially, each node is its own component as the graph is
+        # disconnected.
+        component_size = [1] * self.num_nodes
+        num_of_components = self.num_nodes
+
+        # Continue adding edges until there is only one component, as this
+        # means the graph is connected.
+        while num_of_components > 1:
+            for edge in self.edges:
+                node1, node2, weight = edge
+                node1_component = self.components[node1]
+                node2_component = self.components[node2]
+
+                if node1_component != node2_component:
+                    if (
+                        min_weight_edge[node1_component] == -1
+                        or weight < min_weight_edge[node1_component][2]
+                    ):
+                        min_weight_edge[node1_component] = edge
+
+                    if (
+                        min_weight_edge[node2_component] == -1
+                        or weight < min_weight_edge[node2_component][2]
+                    ):
+                        min_weight_edge[node2_component] = edge
+
+            for node in self.nodes:
+                if min_weight_edge[node] != -1:
+                    node1 = min_weight_edge[node][0]
+                    node2 = min_weight_edge[node][1]
+                    weight = min_weight_edge[node][2]
+
+                    # If the nodes are not in the same component, add the edge
+                    # to the MST and union the components.
+                    if self.components[node1] != self.components[node2]:
+                        mst_weight += weight
+                        self.union(component_size, node1, node2)
+                        num_of_components -= 1
+                        print(
+                            f"Added edge {node1} - {node2} with weight {weight} to MST"
+                        )
+
+            min_weight_edge = [-1] * self.num_nodes
+
+        return mst_weight
 
 
 def main():
@@ -50,7 +150,7 @@ def main():
     graph1.add_edge(5, 8, 12)
     graph1.add_edge(6, 7, 1)
     graph1.add_edge(7, 8, 3)
-    graph1.find_mst_with_boruvka()
+    print(f"\nMST weight with Boruvka's algorithm: {graph1.find_mst_with_boruvka()}")
 
 
 if __name__ == "__main__":
