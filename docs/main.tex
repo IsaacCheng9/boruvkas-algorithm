@@ -53,6 +53,35 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
     \Input{A connected, edge-weighted undirected graph $G = (V, E)$}
     \Output{$T$, a minimum spanning tree of $G$}
 
+    \nl Initialise a tree $T$ to (V, E'), where E' = \{\}.
+
+    \nl Initialise the number of components $N$ to |V|, where |V| is the number of vertices in $G$.
+
+    \nl \While{$N$ > 1}{
+        \nl Initialise a list of minimum connecting edges $L$ to \{\}.
+
+        \nl \For{each component $C$ in $T$}{
+            \nl Initialise the cheapest edge $e$ to $\infty$.
+
+            \nl \For{each edge $e'$ in $C$}{
+                \nl \If{$e'$ is cheaper than $e$}{
+                    \nl Set $e$ to $e'$.
+                }
+            }
+
+            \nl \If{$e$ is not $\infty$}{
+                \nl Add $e$ to $L$.
+            }
+        }
+
+        \nl \For{each edge $e$ in $L$}{
+            \nl \If{$e$ connects two different components}{
+                \nl Add $e$ to $E'$ in $T$.
+
+                \nl Decrement $N$ by 1.
+            }
+        }
+    }
 \end{algorithm}
 
 \section{Time and Space Complexity Analysis}
