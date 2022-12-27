@@ -1,7 +1,7 @@
 """
 Implement Boruvka's algorithm for finding the minimum spanning tree of a graph.
 """
-from typing import List
+from typing import List, Tuple
 
 
 class Graph:
@@ -99,18 +99,19 @@ class Graph:
             ):
                 min_weight_edges[node2_component] = edge
 
-    def find_mst_with_boruvka(self) -> int:
+    def find_mst_with_boruvka(self) -> Tuple[int, List[tuple]]:
         """
         Find the minimum spanning tree of this graph using Boruvka's algorithm.
 
         Returns:
-            The weight of the minimum spanning tree.
+            The weight and list of edges of the minimum spanning tree.
         """
         print(
             "\nFinding MST with Boruvka's algorithm for the following graph:\n"
             f"Nodes: {self.nodes}\nEdges (node1, node2, weight):\n    {self.edges}\n"
         )
         mst_weight = 0
+        mst_edges = []
         # Initially, each node is its own component as the graph is
         # disconnected.
         component_size = [1] * self.num_nodes
@@ -132,16 +133,18 @@ class Graph:
                     continue
 
                 node1, node2, weight = min_weight_edges[node]
-                # If the nodes are not in the same component, add the edge
-                # to the MST and union the components.
+                # If the nodes aren't in the same component, connect them in
+                # the MST.
                 if self.components[node1] != self.components[node2]:
                     self.union(component_size, node1, node2)
                     mst_weight += weight
+                    mst_edges.append((node1, node2, weight))
                     # We have one less component as we've merged two.
                     num_of_components -= 1
-                    print(f"Added edge {node1} - {node2} with weight {weight} to MST")
+                    print(f"Added edge {node1} - {node2} with weight {weight} to MST.")
 
-        return mst_weight
+        print("Successfully found MST with Boruvka's algorithm.")
+        return mst_weight, mst_edges
 
 
 def main():
@@ -161,7 +164,9 @@ def main():
     graph1.add_edge(5, 8, 12)
     graph1.add_edge(6, 7, 1)
     graph1.add_edge(7, 8, 3)
-    print(f"\nMST weight with Boruvka's algorithm: {graph1.find_mst_with_boruvka()}")
+    mst_weight, mst_edges = graph1.find_mst_with_boruvka()
+    print(f"\nMST weight: {mst_weight}")
+    print(f"MST edges (node1, node2, weight):\n    {mst_edges}\n")
 
 
 if __name__ == "__main__":
