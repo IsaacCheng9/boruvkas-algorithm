@@ -50,9 +50,9 @@ class Graph:
         Returns:
             True if the edge was added successfully.
         """
-        if node1 not in self.nodes:
+        if node1 not in range(self.num_nodes):
             raise ValueError(f"Node {node1} does not exist")
-        if node2 not in self.nodes:
+        if node2 not in range(self.num_nodes):
             raise ValueError(f"Node {node2} does not exist")
 
         self.edges.append((node1, node2, weight))
