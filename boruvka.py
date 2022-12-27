@@ -83,9 +83,7 @@ class Graph:
             "\nFinding MST with Boruvka's algorithm for the following graph:\n"
             f"Nodes: {self.nodes}\nEdges (node1, node2, weight):\n    {self.edges}\n"
         )
-
         mst_weight = 0
-        min_weight_edge = [-1] * self.num_nodes
         # Initially, each node is its own component as the graph is
         # disconnected.
         component_size = [1] * self.num_nodes
@@ -94,6 +92,9 @@ class Graph:
         # Continue adding edges until there is only one component, as this
         # means the graph is connected.
         while num_of_components > 1:
+            # Reset the min_weight_edge list to find the next minimum weight.
+            min_weight_edge = [-1] * self.num_nodes
+
             for edge in self.edges:
                 node1, node2, weight = edge
                 node1_component = self.components[node1]
@@ -127,8 +128,6 @@ class Graph:
                         print(
                             f"Added edge {node1} - {node2} with weight {weight} to MST"
                         )
-
-            min_weight_edge = [-1] * self.num_nodes
 
         return mst_weight
 
