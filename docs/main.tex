@@ -16,7 +16,7 @@
 \section{Principles of Borůvka's Algorithm}
 Borůvka's algorithm is a greedy algorithm that finds a minimum spanning tree for a connected, edge-weighted undirected graph. It originated from Otakar Borůvka in 1926, as a method of constructing an efficient electricity network for Moravia, a region of the Czech Republic \cite{nevsetvril2001otakar}. It was independently rediscovered by numerous other researchers in later years, most notably by Georges Sollin in 1965, which has led to the algorithm also being known as Sollin's algorithm in parallel computing literature \cite{sollin1965trace}.
 
-The algorithm uses a divide-and-conquer approach that is based on the idea of building a forest of trees. At each step, it finds the cheapest edge that connects two different trees and combines the trees into a single tree. The algorithm continues until there is only one tree left, which is the minimum spanning tree.
+The algorithm uses a divide-and-conquer approach that is based on the idea of building a forest of trees, and is a hybrid of Kruskal's and Prim's algorithms to find a minimum spanning tree. At each step, it finds the cheapest edge that connects two different trees and combines the trees into a single tree. Borůvka's algorithm continues until there is only one tree left, which is the minimum spanning tree. Each iteration of the algorithm reduces the number of trees to at most half of the previous number of trees, so it runs in logarithmic time.
 
 \section{Pseudocode}
 
@@ -26,6 +26,7 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
 
 \section{Real-World Applications}
 
+\newpage
 \bibliography{main}
 \bibliographystyle{ieeetr.bst}
 
