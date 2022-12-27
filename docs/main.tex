@@ -14,7 +14,7 @@
 \maketitle
 
 \section{Principles of Borůvka's Algorithm}
-Borůvka's algorithm is a greedy algorithm that finds a minimum spanning tree for a connected, edge-weighted undirected graph. It originated from Otakar Borůvka in 1926, as a method of constructing an efficient electricity network for Moravia, a region of the Czech Republic \cite{nevsetvril2001otakar}. It was independently rediscovered by numerous other researchers in later years, most notably by Georges Sollin in 1965, which has led to the algorithm also being known as Sollin's algorithm in parallel computing literature \cite{sollin1965trace}.
+Borůvka's algorithm is a greedy algorithm that finds a minimum spanning tree for a connected, edge-weighted undirected graph. It originated from Otakar Borůvka in 1926, as a method of constructing an efficient electricity network for Moravia, a region of the Czech Republic \cite{nevsetvril2001otakar} -- this made it the first published algorithm that solved the minimum spanning tree problem in polynomial time \cite{deterministicMSTs}. It was independently rediscovered by numerous other researchers in later years, most notably by Georges Sollin in 1965, which has led to the algorithm also being known as Sollin's algorithm in parallel computing literature \cite{sollin1965trace}. 
 
 The algorithm uses a divide-and-conquer approach that is based on the idea of building a forest of trees, and is a hybrid of Kruskal's and Prim's algorithms to find a minimum spanning tree. At each step, it finds the cheapest edge that connects two different trees and combines the trees into a single tree. Borůvka's algorithm continues until there is only one tree left, which is the minimum spanning tree. Each iteration of the algorithm reduces the number of trees to at most half of the previous number of trees, so it runs in logarithmic time.
 
@@ -25,6 +25,7 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
 \section{Limitations and Constraints}
 
 \section{Real-World Applications}
+While there have been several other algorithms that are more optimal for finding a minimum spanning tree depending on the input graph, Borůvka's algorithm has become increasingly popular because it is easy to parallelise and is therefore well-suited to distributed computing \cite{mariano2015generic}.
 
 \newpage
 \bibliography{main}
