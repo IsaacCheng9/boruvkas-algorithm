@@ -164,8 +164,12 @@ class Graph:
         """
         print(
             "\nFinding MST with Boruvka's algorithm for the following graph:\n"
-            f"Nodes: {self.nodes}\nEdges (node1, node2, weight):\n    {self.edges}\n"
+            f"Nodes: {self.nodes}\nEdges (node1, node2, weight):"
         )
+        for edge in self.edges:
+            print(f"    {edge}")
+        print()
+
         mst_weight = 0
         mst_edges = []
         # Initially, each node is its own component as the graph is
@@ -215,7 +219,9 @@ def main():
     graph1.add_edge(7, 8, 3)
     mst_weight, mst_edges = graph1.find_mst_with_boruvka()
     print(f"\nMST weight: {mst_weight}")
-    print(f"MST edges (node1, node2, weight):\n    {mst_edges}\n")
+    print("MST edges (node1, node2, weight):")
+    for edge in mst_edges:
+        print(f"    {edge}")
 
 
 if __name__ == "__main__":
