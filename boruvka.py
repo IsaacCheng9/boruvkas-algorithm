@@ -53,18 +53,22 @@ class Graph:
         self.edges.append((node1, node2, weight))
         return True
 
-    def union(self, component_size: List[int], node1: int, node2: int) -> None:
+    def merge_components(
+        self, component_size: List[int], node1: int, node2: int
+    ) -> None:
         """
-        Union the components of node1 and node2.
+        Merge the smaller component of node1 and node2 into the larger
+        component.
 
         Args:
             component_size: A list of the size of each component.
-            node1: The first node to union the components of.
-            node2: The second node to union the components of.
+            node1: The first node to merge the component of.
+            node2: The second node to merge the component of.
         """
         node1_component = self.components[node1]
         node2_component = self.components[node2]
 
+        # Merge the smaller component into the larger component.
         if component_size[node1_component] < component_size[node2_component]:
             self.components[node1_component] = node2_component
             component_size[node2_component] += component_size[node1_component]
@@ -122,7 +126,7 @@ class Graph:
         while num_of_components > 1:
             # Reset the min_weight_edge list to find the next minimum weight.
             min_weight_edges = [-1] * self.num_nodes
-            # Find the minimum weight edge for each component so we have the
+            # Find the minimum weight edge for each component, so we have the
             # optimal candidate edges to add to the MST.
             for edge in self.edges:
                 self.update_min_weight_edge_for_components(min_weight_edges, edge)
@@ -133,10 +137,10 @@ class Graph:
                     continue
 
                 node1, node2, weight = min_weight_edges[node]
-                # If the nodes aren't in the same component, connect them in
-                # the MST.
+                # If the other node isn't in the same component, connect and
+                # merge them in the MST using the minimum weight edge.
                 if self.components[node1] != self.components[node2]:
-                    self.union(component_size, node1, node2)
+                    self.merge_components(component_size, node1, node2)
                     mst_weight += weight
                     mst_edges.append((node1, node2, weight))
                     # We have one less component as we've merged two.
