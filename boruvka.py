@@ -81,36 +81,34 @@ class Graph:
             self.components[node2_component] = node1_component
             component_size[node1_component] += component_size[node2_component]
 
-    def update_min_weight_edge_for_components(
-        self, min_weight_edges: List[int], edge: Tuple[int, int, int]
-    ):
+    def update_min_weight_edges_for_components(self, min_weight_edges: List[int]):
         """
-        Update the minimum weight edge if the given edge is the smallest so far
-        for either of the nodes' components.
+        Check each edge and update the minimum weight edge for each node's
+        component if the edge is smaller than the current minimum weight edge.
 
         Args:
             min_weight_edges: A list of the minimum weight edge for each node's
                               component.
-            edge: The edge to check, in the form (node1, node2, weight).
         """
-        node1, node2, weight = edge
-        node1_component = self.components[node1]
-        node2_component = self.components[node2]
+        for edge in self.edges:
+            node1, node2, weight = edge
+            node1_component = self.components[node1]
+            node2_component = self.components[node2]
 
-        # If the nodes are in different components and the edge is smaller than
-        # the current minimum weight edge for either component, update them.
-        if node1_component != node2_component:
-            if (
-                min_weight_edges[node1_component] == -1
-                or weight < min_weight_edges[node1_component][2]
-            ):
-                min_weight_edges[node1_component] = edge
+            # If the nodes are in different components and the edge is smaller than
+            # the current minimum weight edge for either component, update them.
+            if node1_component != node2_component:
+                if (
+                    min_weight_edges[node1_component] == -1
+                    or weight < min_weight_edges[node1_component][2]
+                ):
+                    min_weight_edges[node1_component] = edge
 
-            if (
-                min_weight_edges[node2_component] == -1
-                or weight < min_weight_edges[node2_component][2]
-            ):
-                min_weight_edges[node2_component] = edge
+                if (
+                    min_weight_edges[node2_component] == -1
+                    or weight < min_weight_edges[node2_component][2]
+                ):
+                    min_weight_edges[node2_component] = edge
 
     def find_mst_with_boruvka(self) -> Tuple[int, List[tuple]]:
         """
@@ -137,14 +135,12 @@ class Graph:
             min_weight_edges = [-1] * self.num_nodes
             # Find the minimum weight edge for each component, so we have the
             # optimal candidate edges to add to the MST.
-            for edge in self.edges:
-                self.update_min_weight_edge_for_components(min_weight_edges, edge)
+            self.update_min_weight_edges_for_components(min_weight_edges)
 
             for node in self.nodes:
                 # If the node isn't in a component, skip it.
                 if min_weight_edges[node] == -1:
                     continue
-
                 node1, node2, weight = min_weight_edges[node]
                 # If the other node isn't in the same component, connect and
                 # merge them in the MST using the minimum weight edge.
