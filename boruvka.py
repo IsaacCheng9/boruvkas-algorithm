@@ -22,15 +22,16 @@ class Graph:
         # is its own parent, as the graph is disconnected.
         self.components = {node: node for node in self.nodes}
 
-    def get_nodes(self) -> list:
+    def get_nodes(self) -> List[int]:
         """
         Return a list of nodes in this graph.
         """
         return self.nodes
 
-    def get_edges(self) -> List[tuple]:
+    def get_edges(self) -> List[Tuple[int, int, int]]:
         """
-        Return a list of edges in this graph.
+        Return a list of edges in this graph in the form
+        (node1, node2, weight).
         """
         return self.edges
 
