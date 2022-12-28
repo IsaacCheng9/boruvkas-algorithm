@@ -110,7 +110,7 @@ A limitation of Borůvka's algorithm is that it may not always find the true min
 
 Furthermore, Borůvka's algorithm can be slow to find the minimum spanning tree when the graph has a large number of components or when the components in the graph are large in size. In these cases, the algorithm will have to perform more iterations and contract more edges.
 
-Compared to Prim's algorithm, which runs in O(E + V log(V)) amortised time when using a Fibonacci heap, Borůvka's algorithm is slightly slower. This is particularly the case when the graph is dense, with a high number of edges relative to the number of vertices. However, this variation of Prim's algorithm with the Fibonacci heap is more complicated to implement.
+Compared to Prim's algorithm, which runs in O(E + V log(V)) amortised time when using a Fibonacci heap \cite{fredman1987fibonacci}, Borůvka's algorithm is slightly slower. However, this variation of Prim's algorithm with the Fibonacci heap is more complicated to implement.
 
 Borůvka's algorithm only works on undirected graphs as it does not account for the direction of the edges, thus it cannot solve the directed minimum spanning tree problem, which is more complex than the minimum spanning tree problem. Other algorithms such as the Chu-Liu/Edmonds' algorithm (originally proposed in 1965) can solve the directed minimum spanning tree problem \cite{gabow1986efficient}.
 
