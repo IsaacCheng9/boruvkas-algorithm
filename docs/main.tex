@@ -98,14 +98,13 @@ As Borůvka's algorithm finds a minimum spanning tree, it is most directly used 
 
 As Boruvka's algorithm satisfies the triangle inequality and finds a minimum spanning tree, it also acts as a two-approximation algorithm for the travelling salesman problem \cite{andreae1995performance}, which is NP-hard and thus not possible to solve in polynomial time \cite{junger1995traveling}. Because it produces a two-approximation, the output is at most twice the cost of the optimal solution. This can be proven as the total cost of a full walk is at most twice the cost of the minimum spanning tree, and the algorithm returns a path with a cost less than the full walk, as our pre-order walk replaces two or more edges of the full walk with a single edge \cite{andreae1995performance}.
 
-
 \begin{algorithm}
     \caption{Two-Approximation for the Travelling Salesman Problem with MST-DFS \cite{andreae1995performance}}
     \nl Set a vertex as the start.
     
     \nl Construct a minimum spanning tree, $T$.
     
-    \nl Create a list of vertices, $H$, that is ordered according to when they are visited in a pre-order tree walk of $T$.
+    \nl Create a list of vertices, $H$, that is ordered according to when they are visited in a pre-order tree walk of $T$, and add the start vertex at the end.
     
     \nl Return the path $H$.
 \end{algorithm}
