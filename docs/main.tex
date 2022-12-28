@@ -45,15 +45,16 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
 
 \section{Pseudocode}
 
+% TODO: Revisit this to check whether it's correct.
 \begin{algorithm}
     \caption{Borůvka's Algorithm}
     \SetKwInOut{Input}{Input}
     \SetKwInOut{Output}{Output}
     
-    \Input{A connected, edge-weighted undirected graph $G = (V, E)$}
+    \Input{A connected, edge-weighted, undirected graph $G = (V, E)$}
     \Output{$T$, a minimum spanning tree of $G$}
 
-    \nl Initialise a tree $T$ to (V, E'), where E' = \{\}.
+    \nl Initialise a tree $T$ = (V, E'), where E' = \{\}.
 
     \nl Initialise a list of components $N$, where $N_k$ denotes the vertices in component $k$.
 
@@ -62,7 +63,7 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
     }
 
     \nl \While{$|N|$ > 1}{
-        \nl Initialise a list of minimum connecting edges $L$ to \{\}.
+        \nl Initialise an empty list of minimum connecting edges, $L$ = \{\}.
 
         \nl \For{each component $C$ in $N$}{
             \nl Initialise the cheapest edge $e$ to $\infty$.
@@ -80,11 +81,9 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
 
         \nl \For{each edge $e$ in $L$}{
             \nl \If{$e$ connects two different components}{
-                \nl Merge the components into a single component.
+                \nl Merge the components $N_i$ and $N_j$ into a single component, $N_k$, such that $N_k = N_i \cup N_j$.
 
                 \nl Add $e$ to $E'$ in $T$.
-
-                \nl Decrement $N$ by 1.
             }
         }
     }
