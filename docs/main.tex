@@ -100,6 +100,8 @@ Borůvka's algorithm has a time complexity of O(E log(V)), where E is the number
 
 The outer loop runs for log(V) iterations, as each iteration of the algorithm reduces the number of trees to at most half of the previous number of trees. Within each iteration, the algorithm performs a single pass over all the edges to find the minimum weight edge that connects two different components. This is performed in O(E) time, as the algorithm must consider each edge once. The algorithm then performs a single pass over all the edges to merge two components into one where possible, which is also performed in O(E) time. This gives a total time complexity of O(E log(V)).
 
+Compared to Prim's algorithm, which runs in O(E + V log(V)) amortised time when using a Fibonacci heap, Borůvka's algorithm is slightly slower. This is particularly the case when the graph is dense, with a high number of edges relative to the number of vertices. However, this variation of Prim's algorithm with the Fibonacci heap is more complicated to implement.
+
 The space complexity of Borůvka's algorithm is O(V), as it only stores the component information for each vertex, which contains each vertex's parent and minimum weight edge.
 
 \section{Limitations and Constraints}
