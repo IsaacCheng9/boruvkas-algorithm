@@ -96,18 +96,30 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
 \section{Applications}
 As Borůvka's algorithm finds a minimum spanning tree, it is most directly used in the design of networks, such as electrical networks, communication networks, and transportation networks \cite{graham1985history}. In the original application of an electricity network for Moravia, the vertices represented towns, and edges represented the distances between towns. Borůvka used the assumption that it was not necessary to directly connect every town to the source of electricity -- it was sufficient for a town to connect via another town that was already connected to power \cite{nevsetvril2001otakar}.
 
-As Boruvka's algorithm satisfies the triangle inequality, it also acts as a two-approximation algorithm for the travelling salesman problem \cite{andreae1995performance}, which is NP-hard and thus not possible to solve in polynomial time \cite{junger1995traveling}.
+As Boruvka's algorithm satisfies the triangle inequality and finds a minimum spanning tree, it also acts as a two-approximation algorithm for the travelling salesman problem \cite{andreae1995performance}, which is NP-hard and thus not possible to solve in polynomial time \cite{junger1995traveling}. Because it produces a two-approximation, the output is at most twice the cost of the optimal solution. This can be proven as the total cost of a full walk is at most twice the cost of the minimum spanning tree, and the algorithm returns a path with a cost less than the full walk, as our pre-order walk replaces two or more edges of the full walk with a single edge \cite{andreae1995performance}.
 
-\begin{figure}[h]
-    \caption{Two-Approximation Algorithm for the Travelling Salesman Problem}
-    \begin{enumerate}
-        \setlength\itemsep{0em}
-        \item Set a vertex as the start
-        \item Construct the minimum spanning tree using Borůvka's algorithm
-        \item List the vertices visited in the pre-order walk of the minimum spanning tree and add the start vertex at the end
-    \end{enumerate}
-\end{figure}
 
+\begin{algorithm}
+    \caption{Two-Approximation for the Travelling Salesman Problem with MST-DFS \cite{andreae1995performance}}
+    \nl Set a vertex as the start.
+    
+    \nl Construct a minimum spanning tree, $T$.
+    
+    \nl Create a list of vertices, $H$, that is ordered according to when they are visited in a pre-order tree walk of $T$.
+    
+    \nl Return the path $H$.
+\end{algorithm}
+
+% \begin{figure}[h]
+%     \caption{Two-Approximation Algorithm for the Travelling Salesman Problem \cite{andreae1995performance}}
+%     \begin{enumerate}
+%         \setlength\itemsep{0em}
+%         \item Set a vertex as the start.
+%         \item Construct a minimum spanning tree, $T$.
+%         \item Create a list of vertices, $H$, that is ordered according to when they are first visited in a pre-order tree walk of $T$.
+%         \item Return the path $H$.
+%     \end{enumerate}
+% \end{figure}
 
 There are several other algorithms that are more optimal for finding a minimum spanning tree depending on the input graph -- Prim's algorithm is faster for dense graphs, and Kruskal's algorithm is faster for sparse graphs \cite{bazlamaccci2001minimum}. However, this only considers sequential implementations of the algorithms -- Borůvka's algorithm has become increasingly popular because it is easy to parallelise and is therefore well-suited to distributed computing \cite{mariano2015generic}. As it starts with multiple components and seeks to combine them with the shortest edge, it can be easily parallelised by assigning each component to a different processor.
 
