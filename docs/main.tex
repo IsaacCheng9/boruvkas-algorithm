@@ -52,9 +52,11 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
     \SetKwInOut{Output}{Output}
     
     \Input{A connected, edge-weighted, undirected graph $G = (V, E)$}
-    \Output{$T$, a minimum spanning tree of $G$}
+    \Output{$T$ (a minimum spanning tree of $G$) and $totalCost$ (the total cost of $T$)}
 
-    \nl Initialise a tree $T$ = (V, E'), where E' = \{\}.
+    \nl Initialise a minimum spanning tree $T$ = (V, E'), where E' = \{\}.
+
+    \nl Initialise the total cost of the minimum spanning tree, $totalCost = 0$.
 
     \nl Initialise a list of components $N$, where $N_k$ denotes the vertices in component $k$.
 
@@ -84,9 +86,13 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
                 \nl Merge the components $N_i$ and $N_j$ into a single component, $N_k$, such that $N_k = N_i \cup N_j$.
 
                 \nl Add $e$ to $E'$ in $T$.
+
+                \nl Add the edge's weight to the total cost: $totalCost = totalCost + e.weight$
             }
         }
     }
+
+    \nl \Return $T$ and $totalCost$.
 \end{algorithm}
 
 \section{Time and Space Complexity Analysis}
