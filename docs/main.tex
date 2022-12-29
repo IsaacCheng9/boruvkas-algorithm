@@ -8,6 +8,7 @@
 \usepackage{geometry}
 \usepackage[ruled,vlined]{algorithm2e}
 
+\graphicspath{{images/}}
 \geometry{margin=2.0cm}
 
 \begin{document}
@@ -44,6 +45,13 @@ Borůvka's algorithm is a greedy algorithm that finds a minimum spanning tree fo
 It was independently rediscovered by numerous other researchers in later years, most notably by Georges Sollin in 1965, which has led to the algorithm also being known as Sollin's algorithm in parallel computing literature \cite{sollin1965trace}. 
 
 The algorithm uses a divide-and-conquer approach that is based on the idea of building a forest of trees, and is a hybrid of Prim's and Kruskal's algorithms to find a minimum spanning tree. At each step, it finds the cheapest edge that connects two different trees and combines the trees into a single tree. Borůvka's algorithm continues until there is only one tree left, which is the minimum spanning tree.
+
+\begin{figure}[h]
+    \caption{Borůvka's Short Paper \cite{nevsetvril2001otakar}}
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{Boruvka's Short Paper.png}
+    \end{center}
+\end{figure}
 
 \section{Pseudocode}
 
