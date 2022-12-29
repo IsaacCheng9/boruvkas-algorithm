@@ -57,7 +57,7 @@ When Borůvka's algorithm was originally discovered, computers as we know them t
 
 \section{Pseudocode}
 
-% TODO: Revisit this to check whether it's correct.
+% TODO: Revisit this to check whether it's correct and compare it with Python code.
 \begin{algorithm}
     \caption{Borůvka's Algorithm}
     \SetKwInOut{Input}{Input}
@@ -124,7 +124,7 @@ Borůvka's algorithm has a time complexity of O(E log(V)), where E is the number
 
 The outer loop runs for log(V) iterations, as each iteration reduces the number of components by at least a factor of two by combining them -- the worst case occurs when the components coalesce in pairs \cite{erickson2014MSTs}. Within each iteration, the algorithm performs a single pass over all the edges to find the minimum weight edge that connects two different components. This is performed in O(E) time, as the algorithm must consider each edge once. The algorithm then performs a single pass over the minimum weight edges to merge two components into one where possible, which is also performed in O(E) time. This gives a total time complexity of O(E log(V)).
 
-However, Borůvka's algorithm often runs faster than the worst-case runtime of O(E log(V)), as this assumes that the number of components only reduces by a factor of two in each iteration. For many graphs, the number of components reduces by a factor of more than two in each iteration, which improves the runtime of the algorithm significantly. The algorithm runs in O(E) time for a broad class of graphs such as planar graphs \cite{erickson2017PlanarGraphs}, which are graphs that can be drawn on a plane without any edges crossing each other. In contrast, the time analysis for Prim's and Kruskal's algorithms apply to all graphs -- this means that Borůvka's algorithm is more efficient for planar graphs amongst others.
+However, Borůvka's algorithm often runs faster than the worst-case runtime of O(E log(V)), as this assumes that the number of components only reduces by a factor of two in each iteration \cite{erickson2014MSTs}. For many graphs, the number of components reduces by a factor of more than two in each iteration, which improves the runtime of the algorithm significantly. The algorithm runs in O(E) time for a broad class of graphs such as planar graphs \cite{cheriton1976finding}, which are graphs that can be drawn on a plane without any edges crossing each other. In contrast, the time analysis for Prim's and Kruskal's algorithms apply to all graphs -- this means that Borůvka's algorithm is more efficient for planar graphs amongst others.
 
 \subsection{Space Complexity}
 The space complexity of Borůvka's algorithm is O(V), as for each vertex it stores the component information, which contains its parent and minimum weight edge.
@@ -134,13 +134,13 @@ A limitation of Borůvka's algorithm is that it may not always find the true min
 
 Furthermore, Borůvka's algorithm can be slow to find the minimum spanning tree when the graph has a large number of components or when the components in the graph are large in size. In these cases, the algorithm will have to perform more iterations and contract more edges.
 
-Compared to Prim's algorithm, which runs in O(E + V log(V)) amortised time when using a Fibonacci heap \cite{fredman1987fibonacci}, Borůvka's algorithm is slightly slower. However, this variation of Prim's algorithm with the Fibonacci heap is more complicated to implement.
+Compared to Prim's algorithm, which runs in O(E + V log(V)) amortised time when using a Fibonacci heap \cite{fredman1987fibonacci}, Borůvka's algorithm is slightly slower in worst-case scenarios. However, this variation of Prim's algorithm with the Fibonacci heap is more complicated to implement, and there are many types of graphs that Borůvka is more efficient at solving, such as planar graphs. In the next section we will also explore parallelisation with Borůvka's algorithm, which is not possible with Prim's. Based on these factors, Borůvka's algorithm is generally more efficient than Prim's algorithm in practice.
 
-Borůvka's algorithm only works on undirected graphs as it does not account for the direction of the edges, thus it cannot solve the directed minimum spanning tree problem, which is more complex than the minimum spanning tree problem. Other algorithms such as the Chu-Liu/Edmonds' algorithm (originally proposed in 1965) can solve the directed minimum spanning tree problem \cite{gabow1986efficient}.
+Borůvka's algorithm only works on undirected graphs as it does not account for the direction of the edges. Thus, it cannot solve the directed minimum spanning tree problem, which is more complex than the minimum spanning tree problem. Other algorithms such as the Chu-Liu/Edmonds' algorithm (originally proposed in 1965) can solve the directed minimum spanning tree problem \cite{gabow1986efficient}.
 
 \section{Applications}
 
-\subsection{Designing Networks in the Real-World}
+\subsection{Designing Networks in the Real World}
 As Borůvka's algorithm finds a minimum spanning tree, it is most directly used in the design of networks, such as electrical networks, communication networks, and transportation networks \cite{graham1985history}. In the original application of an electricity network for Moravia, the vertices represented towns, and edges represented the distances between towns. Borůvka used the assumption that it was not necessary to directly connect every town to the source of electricity -- it was sufficient for a town to connect via another town that was already connected to power \cite{nevsetvril2001otakar}.
 
 \subsection{Two-Approximation for the Travelling Salesperson Problem}
