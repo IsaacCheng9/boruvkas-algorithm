@@ -120,7 +120,7 @@ The outer loop runs for log(V) iterations, as each iteration of the algorithm re
 It should be noted that the best, average, and worst-case time complexities of Borůvka's algorithm are all the same because the algorithm is not dependent on the input data.
 
 \subsection{Space Complexity}
-The space complexity of Borůvka's algorithm is O(V), as it only stores the component information for each vertex, which contains each vertex's parent and minimum weight edge.
+The space complexity of Borůvka's algorithm is O(V), as for each vertex it stores the component information, which contains its parent and minimum weight edge.
 
 \section{Limitations and Constraints}
 A limitation of Borůvka's algorithm is that it may not always find the true minimum spanning tree of a graph when the cheapest edge that connects two different components is not part of the true minimum spanning tree. This is because Borůvka's algorithm only considers the cheapest edge that connects two different components, and does not consider the cheapest edge that connects two components that are already connected. Other algorithms such as Kruskal's algorithm and Prim's algorithm do not have this limitation, as they consider all edges in the graph.
