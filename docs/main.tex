@@ -82,10 +82,10 @@ When Borůvka's algorithm was originally discovered, computers as we know them t
         \nl Initialise an empty list of minimum weight connecting edges, $L$ = \{\}.
 
         \nl \For{component $c \in N$}{
-            \nl Initialise the cheapest edge $e$ to $\infty$.
+            \nl Initialise the cheapest edge $e$, with weight = $\infty$.
 
             \nl \For{edge $i, j \in c$}{
-                \nl \If{$i, j$ contains an endpoint that isn't in $c$ and $i, j$ is cheaper than $e$}{
+                \nl \If{$i, j$ contains an endpoint that isn't in $c$ and weight of $i, j$ < $e$}{
                     \nl Set $e$ to $i, j$.
                 }
             }
