@@ -47,7 +47,7 @@ Borůvka's algorithm is a greedy algorithm that finds a minimum spanning tree fo
 
 It was independently rediscovered by numerous other researchers in later years, most notably by Georges Sollin in 1965, which has led to the algorithm also being known as Sollin's algorithm in parallel computing literature \cite{sollin1965trace}. 
 
-The algorithm uses a divide-and-conquer approach that is based on the idea of building a forest of trees, and is a hybrid of Prim's and Kruskal's algorithms to find a minimum spanning tree. As aforementioned, an advantage of Borůvka's algorithm over Prim's and Kruskal's is that it does not have to pre-sort the edges, nor does it have to maintain a priority queue. In each iteration, it finds the cheapest edge that connects two different trees and combines the trees into a single tree. Borůvka's algorithm continues to iterate until there is only one tree left, which is the minimum spanning tree.
+The algorithm uses a divide-and-conquer approach that is based on the idea of building a forest of trees, and is a hybrid of Prim's and Kruskal's algorithms to find a minimum spanning tree. As aforementioned, an advantage of Borůvka's algorithm over Prim's and Kruskal's is that it does not have to pre-sort the edges, nor does it have to maintain a priority queue. In each iteration, it finds the cheapest edge that connects two different trees and combines the trees into a single tree. Borůvka's algorithm continues to iterate until there is only one tree left -- the minimum spanning tree.
 
 \begin{figure}[h]
     \caption{Borůvka's Short Paper \cite{nevsetvril2001otakar}}
@@ -80,12 +80,12 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
     \nl \While{$|N|$ > 1}{
         \nl Initialise an empty list of minimum connecting edges, $L$ = \{\}.
 
-        \nl \For{each component $C$ in $N$}{
+        \nl \For{each component $c$ in $N$}{
             \nl Initialise the cheapest edge $e$ to $\infty$.
 
-            \nl \For{each edge $e'$ in $C$}{
-                \nl \If{$e'$ contains an endpoint that isn't in $C$ and $e'$ is cheaper than $e$}{
-                    \nl Set $e$ to $e'$.
+            \nl \For{each edge $i, j$ in $c$}{
+                \nl \If{$i, j$ contains an endpoint that isn't in $c$ and $i, j$ is cheaper than $e$}{
+                    \nl Set $e$ to $i, j$.
                 }
             }
 
