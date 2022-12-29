@@ -112,10 +112,13 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
 % TODO: Add flowchart here.
 
 \section{Time and Space Complexity Analysis}
+
+\subsection{Time Complexity}
 Borůvka's algorithm has a time complexity of O(E log(V)), where E is the number of edges and V is the number of vertices in the graph.
 
 The outer loop runs for log(V) iterations, as each iteration of the algorithm reduces the number of trees to at most half of the previous number of trees. Within each iteration, the algorithm performs a single pass over all the edges to find the minimum weight edge that connects two different components. This is performed in O(E) time, as the algorithm must consider each edge once. The algorithm then performs a single pass over all the edges to merge two components into one where possible, which is also performed in O(E) time. This gives a total time complexity of O(E log(V)).
 
+\subsection{Space Complexity}
 The space complexity of Borůvka's algorithm is O(V), as it only stores the component information for each vertex, which contains each vertex's parent and minimum weight edge.
 
 \section{Limitations and Constraints}
@@ -128,8 +131,11 @@ Compared to Prim's algorithm, which runs in O(E + V log(V)) amortised time when 
 Borůvka's algorithm only works on undirected graphs as it does not account for the direction of the edges, thus it cannot solve the directed minimum spanning tree problem, which is more complex than the minimum spanning tree problem. Other algorithms such as the Chu-Liu/Edmonds' algorithm (originally proposed in 1965) can solve the directed minimum spanning tree problem \cite{gabow1986efficient}.
 
 \section{Applications}
+
+\subsection{Designing Networks in the Real-World}
 As Borůvka's algorithm finds a minimum spanning tree, it is most directly used in the design of networks, such as electrical networks, communication networks, and transportation networks \cite{graham1985history}. In the original application of an electricity network for Moravia, the vertices represented towns, and edges represented the distances between towns. Borůvka used the assumption that it was not necessary to directly connect every town to the source of electricity -- it was sufficient for a town to connect via another town that was already connected to power \cite{nevsetvril2001otakar}.
 
+\subsection{Two-Approximation for the Travelling Salesman Problem}
 Boruvka's algorithm satisfies the triangle inequality and finds a minimum spanning tree, so it also acts as a two-approximation algorithm for the travelling salesman problem \cite{andreae1995performance}, which is NP-hard and thus not possible to solve in polynomial time \cite{junger1995traveling}. Because it produces a two-approximation, the output is at most twice the cost of the optimal solution. This can be proven as the total cost of a full walk is at most twice the cost of the minimum spanning tree, and the algorithm returns a path with a cost less than the full walk, as our pre-order walk replaces two or more edges of the full walk with a single edge \cite{andreae1995performance}.
 
 \begin{algorithm}
@@ -143,8 +149,10 @@ Boruvka's algorithm satisfies the triangle inequality and finds a minimum spanni
     \nl Return the path $H$.
 \end{algorithm}
 
+\subsection{Parallel Computation of Minimum Spanning Trees}
 There are several other algorithms that are more optimal for finding a minimum spanning tree depending on the input graph -- Prim's algorithm is faster for dense graphs, and Kruskal's algorithm is faster for sparse graphs \cite{bazlamaccci2001minimum}. However, this only considers sequential implementations of the algorithms -- Borůvka's algorithm has become increasingly popular because it is easy to parallelise and is therefore well-suited to distributed computing \cite{mariano2015generic}. As it starts with multiple components and seeks to combine them with the shortest edge, it can be easily parallelised by assigning each component to a different processor. This contrasts with the aforementioned algorithms, which start with a single component and seek to add edges to it -- this is difficult to parallelise as we must keep and check edges in a strict order.
 
+\subsection{Faster Sequential Algorithms for Minimum Spanning Trees}
 The concepts behind Borůvka's algorithm have also been used to develop faster sequential algorithms. For example, the expected linear time minimum spanning tree algorithm proposed by Karger, Klein, and Tarjan runs in O(E) time. It involves an adaptation of Borůvka's algorithm, known as the Borůvka step \cite{dixon1992verification, king1995simpler}, alongside a step to remove F-heavy edges in linear time \cite{karger1995randomized}.
 
 \newpage
