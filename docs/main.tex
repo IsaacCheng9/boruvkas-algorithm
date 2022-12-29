@@ -116,7 +116,9 @@ The algorithm uses a divide-and-conquer approach that is based on the idea of bu
 \subsection{Time Complexity}
 Borůvka's algorithm has a time complexity of O(E log(V)), where E is the number of edges and V is the number of vertices in the graph.
 
-The outer loop runs for log(V) iterations, as each iteration of the algorithm reduces the number of trees to at most half of the previous number of trees. Within each iteration, the algorithm performs a single pass over all the edges to find the minimum weight edge that connects two different components. This is performed in O(E) time, as the algorithm must consider each edge once. The algorithm then performs a single pass over all the edges to merge two components into one where possible, which is also performed in O(E) time. This gives a total time complexity of O(E log(V)).
+The outer loop runs for log(V) iterations, as each iteration of the algorithm reduces the number of trees to at most half of the previous number of trees. Within each iteration, the algorithm performs a single pass over all the edges to find the minimum weight edge that connects two different components. This is performed in O(E) time, as the algorithm must consider each edge once. The algorithm then performs a single pass over the minimum weight edges to merge two components into one where possible, which is also performed in O(E) time. This gives a total time complexity of O(E log(V)).
+
+It should be noted that the best, average, and worst-case time complexities of Borůvka's algorithm are all the same because the algorithm is not dependent on the input data.
 
 \subsection{Space Complexity}
 The space complexity of Borůvka's algorithm is O(V), as it only stores the component information for each vertex, which contains each vertex's parent and minimum weight edge.
