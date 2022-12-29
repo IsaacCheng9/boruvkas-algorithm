@@ -65,7 +65,7 @@ When Borůvka's algorithm was originally discovered, computers as we know them t
     \SetKwInOut{Input}{Input}
     \SetKwInOut{Output}{Output}
     
-    \Input{A connected, edge-weighted, undirected graph $G = (V, E)$}
+    \Input{A connected, edge-weighted, undirected graph $G = (V, E)$, where V is a list of vertices in the graph, and E is a list of edges in the graph}
     \Output{$T$ (a minimum spanning tree of $G$) and $totalCost$ (the total cost of $T$)}
 
     \nl Initialise a minimum spanning tree $T$ = (V, E'), where E' = \{\}.
@@ -74,17 +74,17 @@ When Borůvka's algorithm was originally discovered, computers as we know them t
 
     \nl Initialise a list of components $N$, where $N_k$ denotes the vertices in component $k$.
 
-    \nl \For{each vertex $v$ in $V$}{
+    \nl \For{vertex $v \in V$}{
         \nl $N_v = v$.
     }
 
     \nl \While{$|N|$ > 1}{
         \nl Initialise an empty list of minimum connecting edges, $L$ = \{\}.
 
-        \nl \For{each component $c$ in $N$}{
+        \nl \For{component $c \in N$}{
             \nl Initialise the cheapest edge $e$ to $\infty$.
 
-            \nl \For{each edge $i, j$ in $c$}{
+            \nl \For{edge $i, j \in c$}{
                 \nl \If{$i, j$ contains an endpoint that isn't in $c$ and $i, j$ is cheaper than $e$}{
                     \nl Set $e$ to $i, j$.
                 }
@@ -95,7 +95,7 @@ When Borůvka's algorithm was originally discovered, computers as we know them t
             }
         }
 
-        \nl \For{each edge $e$ in $L$}{
+        \nl \For{edge $e \in L$}{
             \nl \If{$e$ connects two different components}{
                 \nl Merge the components $N_i$ and $N_j$ into a single component, $N_k$, such that $N_k = N_i \cup N_j$.
 
