@@ -110,7 +110,7 @@ When Borůvka's algorithm was originally discovered, computers as we know them t
 \end{algorithm}
 
 \subsection{Flowchart}
-% TODO: Add flowchart here.
+\includegraphics[width=0.95\textwidth]{Flowchart of Boruvka's Algorithm.png}
 
 \section{Time and Space Complexity Analysis}
 
@@ -160,6 +160,7 @@ Borůvka's algorithm satisfies the triangle inequality and finds a minimum spann
     \nl Return the path $H$.
 \end{algorithm}
 
+\newpage
 \subsection{Parallel Computation of Minimum Spanning Trees}
 There are several other algorithms that are more optimal for finding a minimum spanning tree depending on the input graph -- Prim's algorithm is faster for dense graphs, and Kruskal's algorithm is faster for sparse graphs \cite{bazlamaccci2001minimum}. However, this only considers sequential implementations of the algorithms -- Borůvka's algorithm has become increasingly popular because it is easy to parallelise \cite{mariano2015generic}. This contrasts with the aforementioned algorithms, which are intrinsically serial -- they start with a single component and seek to add edges to it, making it difficult to parallelise them as we must keep and check edges in a strict order. As Borůvka's algorithm starts with multiple components and seeks to connect them with the shortest edge, it can be parallelised by distributing the edges between processors to determine the shortest connecting edge for each vertex \cite{chung1996parallel}. The parallel implementation of Borůvka's algorithm enables faster performance on multi-core or distributed systems, giving it an advantage over other classicial minimum spanning tree problems when working at a large scale.
 
