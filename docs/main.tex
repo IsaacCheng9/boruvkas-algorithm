@@ -79,7 +79,7 @@ When Borůvka's algorithm was originally discovered, computers as we know them t
     }
 
     \nl \While{$|N|$ > 1}{
-        \nl Initialise an empty list of minimum connecting edges, $L$ = \{\}.
+        \nl Initialise an empty list of minimum weight connecting edges, $L$ = \{\}.
 
         \nl \For{component $c \in N$}{
             \nl Initialise the cheapest edge $e$ to $\infty$.
@@ -124,9 +124,9 @@ When Borůvka's algorithm was originally discovered, computers as we know them t
 
 Borůvka's algorithm has a time complexity of O(E log(V)), where E is the number of edges and V is the number of vertices in the graph.
 
-The outer loop runs for log(V) iterations, as each iteration reduces the number of components by at least a factor of two by combining them -- the worst case occurs when the components coalesce in pairs \cite{erickson2014MSTs}. Within each iteration, the algorithm performs a single pass over all the edges to find the minimum weight edge that connects two different components. This is performed in O(E) time, as the algorithm must consider each edge once. The algorithm then performs a single pass over the minimum weight edges to merge two components into one where possible, which is also performed in O(E) time. This gives a total time complexity of O(E log(V)).
+The outer loop runs for log(V) iterations, as each iteration reduces the number of components by at least a factor of two by combining them -- the worst case occurs when the components coalesce in pairs \cite{erickson2014MSTs}. Within each iteration, the algorithm initialises an empty list of minimum weight edges that connect two components together. For each component, it iterates over the edges and updates the minimum weight edge that connects to another component -- this is executed in O(E) time, as the algorithm must consider each edge once. The algorithm then performs a single pass over the minimum weight connecting edges to merge two components into one where possible, which is also performed in O(E) time because each edge can be a minimum connecting edge. This gives a total time complexity of O(E log(V)).
 
-However, Borůvka's algorithm often runs faster than the worst-case runtime of O(E log(V)), as this assumes that the number of components only reduces by a factor of two in each iteration \cite{erickson2014MSTs}. For many graphs, the number of components reduces by a factor of more than two in each iteration, which improves the runtime of the algorithm significantly. The algorithm runs in O(E) time for a broad class of graphs such as planar graphs \cite{cheriton1976finding}, which are graphs that can be drawn on a plane without any edges crossing each other. In contrast, the time analysis for Prim's and Kruskal's algorithms apply to all graphs -- this means that Borůvka's algorithm is more efficient for planar graphs amongst others.
+However, Borůvka's algorithm often runs faster than the worst-case runtime of O(E log(V)), as this assumes that the number of components only reduces by a factor of two in each iteration \cite{erickson2014MSTs}. For many graphs, the number of components reduces by a factor of more than two in each iteration, which improves the runtime of the algorithm significantly. The algorithm runs in O(E) time for a broad class of graphs such as planar graphs \cite{cheriton1976finding}, which are graphs that can be drawn on a plane without any edges crossing each other. It does so by removing all but the cheapest edge between each pair of components \cite{marevs2002two}. In contrast, the time analysis for Prim's and Kruskal's algorithms apply to all graphs -- this means that Borůvka's algorithm is more efficient for planar graphs amongst others.
 
 \subsection{Space Complexity}
 The space complexity of Borůvka's algorithm is O(V), as for each vertex it stores the component information, which contains its parent and minimum weight edge.
