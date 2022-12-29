@@ -19,7 +19,6 @@
 
 \maketitle
 
-% TODO: Write this at the end (counts towards word limit).
 \begin{abstract}
 The minimum spanning tree problem is a fundamental problem in graph theory that has many applications in the real world. In this report, we explore Borůvka's algorithm -- a greedy algorithm that finds a minimum spanning tree for a connected, edge-weighted undirected graph. We discuss the algorithm's principles, pseudocode, time and space complexity analysis, and applications. We compare Borůvka's algorithm to other minimum spanning tree algorithms such as Prim's and Kruskal's algorithms. We also review variants of Borůvka's algorithm and their use as two-approximation for the travelling salesperson problem, parallel computation of minimum spanning trees, and faster sequential algorithms for minimum spanning trees.
 
@@ -45,7 +44,7 @@ Signature: \hrulefill
 \section{Principles of Borůvka's Algorithm}
 Borůvka's algorithm is a greedy algorithm that finds a minimum spanning tree for a connected, edge-weighted undirected graph. A minimum spanning tree is a subset of the edges that connects all the vertices together without any cycles and with the minimum possible total edge weight \cite{graham1985history}. The algorithm originated from Otakar Borůvka in 1926 as a method of constructing an efficient electricity network for Moravia, a region of the Czech Republic \cite{nevsetvril2001otakar}. Later, it was independently rediscovered by numerous other researchers, most notably by Georges Sollin in 1965, which has led to the algorithm also being known as Sollin's algorithm in parallel computing literature \cite{sollin1965trace}. 
 
-The algorithm uses a divide-and-conquer approach that is based on the idea of building a forest of trees, and is a hybrid of Prim's and Kruskal's algorithms to find a minimum spanning tree. As aforementioned, an advantage of Borůvka's algorithm over Prim's and Kruskal's is that it does not have to pre-sort the edges, nor does it have to maintain a priority queue. In each iteration, it finds the cheapest edge that connects two different trees and combines the trees into a single tree. Borůvka's algorithm continues to iterate until there is only one tree left -- the minimum spanning tree.
+The algorithm is based on the idea of building a forest of trees, and uses a hybrid of Prim's and Kruskal's algorithms to find a minimum spanning tree. An advantage of Borůvka's algorithm over Prim's and Kruskal's algorithms is that it does not have to pre-sort the edges, nor does it have to maintain a priority queue. In each iteration, it finds the cheapest edges that connects different trees and uses them to combine trees together. Borůvka's algorithm continues to iterate until there is only one tree left -- the minimum spanning tree.
 
 When Borůvka's algorithm was originally discovered, computers as we know them today did not exist, so the algorithm was implemented by hand -- this explains why the algorithm is simpler and uses basic data structures compared to other minimum spanning tree algorithms such as Prim's and Kruskal's algorithms. Borůvka's algorithm was the first to solve the minimum spanning tree problem in polynomial time \cite{deterministicMSTs}, which was significant because it made it practical to solve the problem for large graphs and therefore more applicable to real-world problems. 
 
@@ -116,7 +115,7 @@ When Borůvka's algorithm was originally discovered, computers as we know them t
 \subsection{Time Complexity}
 Borůvka's algorithm has a time complexity of O(E log(V)), where E is the number of edges and V is the number of vertices in the graph.
 
-The outer loop runs for log(V) iterations, as each iteration of the algorithm reduces the number of trees to at most half of the previous number of trees. Within each iteration, the algorithm performs a single pass over all the edges to find the minimum weight edge that connects two different components. This is performed in O(E) time, as the algorithm must consider each edge once. The algorithm then performs a single pass over the minimum weight edges to merge two components into one where possible, which is also performed in O(E) time. This gives a total time complexity of O(E log(V)).
+The outer loop runs for log(V) iterations, as each iteration of the algorithm reduces the number of components to at most half of the previous number of components by combining them. Within each iteration, the algorithm performs a single pass over all the edges to find the minimum weight edge that connects two different components. This is performed in O(E) time, as the algorithm must consider each edge once. The algorithm then performs a single pass over the minimum weight edges to merge two components into one where possible, which is also performed in O(E) time. This gives a total time complexity of O(E log(V)).
 
 It should be noted that the best, average, and worst-case time complexities of Borůvka's algorithm are all the same because the algorithm is not dependent on the input data.
 
