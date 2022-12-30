@@ -129,7 +129,7 @@ The outer loop runs for log(V) iterations, as each iteration reduces the number 
 However, Borůvka's algorithm often runs faster than the worst-case runtime of O(E log(V)), as this assumes that the number of components only reduces by a factor of two in each iteration \cite{erickson2014MSTs}. For many graphs, the number of components reduces by a factor of more than two in each iteration, which improves the runtime of the algorithm significantly. The algorithm runs in O(E) time for a broad class of graphs such as planar graphs \cite{cheriton1976finding}, which are graphs that can be drawn on a plane without any edges crossing each other. It does so by removing all but the cheapest edge between each pair of components \cite{marevs2002two}. In contrast, the time analysis for Prim's and Kruskal's algorithms applies to all graphs -- this means that Borůvka's algorithm is more efficient for planar graphs amongst others.
 
 \subsection{Space Complexity}
-The space complexity of Borůvka's algorithm is O(E + V), as we must keep a list of components that equates to the number of vertices at the start and a list of minimum weight connecting edges. Prim's and Kruskal's algorithms also have the same space complexity of O(E + V).
+The space complexity of Borůvka's algorithm is O(E + V), as we must keep a list of components that equates to the number of vertices at the start and a list of minimum weight connecting edges. Prim's and Kruskal's algorithms also have the same space complexity of O(E + V), but Boruvka's algorithm requires more space to store the components and their minimum weight edges, which can make it less efficient in practice for large graphs.
 
 \section{Limitations and Constraints}
 
