@@ -218,10 +218,10 @@ class Graph:
             iteration_num += 1
 
         print("\nSuccessfully found MST with Boruvka's algorithm.")
-        print(f"MST weight: {mst_weight}")
         print("MST edges (vertex1, vertex2, weight):")
         for edge in sorted(mst_edges):
             print(f"    {edge}")
+        print(f"MST weight: {mst_weight}")
 
         return mst_weight, mst_edges
 
