@@ -1,7 +1,7 @@
 """
 Implement Boruvka's algorithm for finding the minimum spanning tree of a graph.
 """
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 
 class Graph:
@@ -17,9 +17,6 @@ class Graph:
         self.vertices = list(range(num_vertices))
         # [(vertex1, vertex2, weight)]
         self.edges = []
-        # {vertex: parent} to represent the component trees. Initially, each vertex
-        # is its own parent, as the graph is disconnected.
-        self.components = {vertex: vertex for vertex in self.vertices}
 
     def get_vertices(self) -> List[int]:
         """
@@ -68,44 +65,50 @@ class Graph:
             print(f"    {edge}")
 
     def merge_components(
-        self, component_sizes: List[int], vertex1: int, vertex2: int
+        self,
+        components: Dict[int, int],
+        component_sizes: List[int],
+        vertex1: int,
+        vertex2: int,
     ) -> None:
         """
         Merge the smaller component of vertex1 and vertex2 into the larger
         component.
 
         Args:
+            components: A dictionary containing the component of each vertex.
             component_sizes: A list of the size of each component.
             vertex1: The first vertex to merge the component of.
             vertex2: The second vertex to merge the component of.
         """
-        vertex1_component = self.components[vertex1]
-        vertex2_component = self.components[vertex2]
+        vertex1_component = components[vertex1]
+        vertex2_component = components[vertex2]
 
         # Merge the smaller component into the larger component.
         if component_sizes[vertex1_component] < component_sizes[vertex2_component]:
-            self.components[vertex1_component] = vertex2_component
+            components[vertex1_component] = vertex2_component
             component_sizes[vertex2_component] += component_sizes[vertex1_component]
         else:
-            self.components[vertex2_component] = vertex1_component
+            components[vertex2_component] = vertex1_component
             component_sizes[vertex1_component] += component_sizes[vertex2_component]
 
     def update_shortest_edge_per_vertex(
-        self, min_connecting_edge_per_vertex: List[int]
+        self, components: Dict[int, int], min_connecting_edge_per_vertex: List[int]
     ):
         """
         Check each edge and update the shortest edge for each vertex if it
         connects two components together.
 
         Args:
+            components: A dictionary containing the component of each vertex.
             min_connecting_edge_per_vertex: A list with the shortest edge
                                                  for each vertex that connects
                                                  to a new component.
         """
         for edge in self.edges:
             vertex1, vertex2, weight = edge
-            vertex1_component = self.components[vertex1]
-            vertex2_component = self.components[vertex2]
+            vertex1_component = components[vertex1]
+            vertex2_component = components[vertex2]
 
             # If the vertices are in different components and the edge is smaller
             # than the current minimum weight edge for either component, update
@@ -129,6 +132,7 @@ class Graph:
         min_connecting_edge_per_vertex: List[int],
         mst_edges: List[Tuple[int, int, int]],
         mst_weight: int,
+        components: Dict[int, int],
         num_components: int,
     ) -> Tuple[int, int]:
         """
@@ -136,6 +140,7 @@ class Graph:
         the number of components.
 
         Args:
+            components: A dictionary containing the component of each vertex.
             component_sizes: A list of the number of vertices in each
                              component.
             min_connecting_edge_per_vertex: A list with the shortest edge
@@ -155,8 +160,8 @@ class Graph:
             vertex1, vertex2, weight = min_connecting_edge_per_vertex[vertex]
             # If the other vertex isn't in the same component, connect and
             # merge them in the MST using the shortest edge.
-            if self.components[vertex1] != self.components[vertex2]:
-                self.merge_components(component_sizes, vertex1, vertex2)
+            if components[vertex1] != components[vertex2]:
+                self.merge_components(components, component_sizes, vertex1, vertex2)
                 mst_weight += weight
                 mst_edges.append((vertex1, vertex2, weight))
                 # We have one less component as we've merged two.
@@ -177,8 +182,9 @@ class Graph:
 
         mst_weight = 0
         mst_edges = []
-        # Initially, each vertex is its own component as the graph is
-        # disconnected.
+        # {vertex: parent} to represent the component trees. Initially, each
+        # vertex is its own component as the graph is disconnected.
+        components = {vertex: vertex for vertex in self.vertices}
         component_sizes = [1] * len(self.vertices)
         num_components = len(self.vertices)
         iteration_num = 1
@@ -195,7 +201,9 @@ class Graph:
             min_connecting_edge_per_vertex = [-1] * len(self.vertices)
             # Find the shortest edge for each component, so we have the optimal
             # candidate edges to add to the MST.
-            self.update_shortest_edge_per_vertex(min_connecting_edge_per_vertex)
+            self.update_shortest_edge_per_vertex(
+                components, min_connecting_edge_per_vertex
+            )
             # Connect components where possible, and update the MST weight and
             # number of components accordingly so we can stop when the graph is
             # connected.
@@ -204,6 +212,7 @@ class Graph:
                 min_connecting_edge_per_vertex,
                 mst_edges,
                 mst_weight,
+                components,
                 num_components,
             )
             iteration_num += 1
@@ -217,7 +226,7 @@ class Graph:
         return mst_weight, mst_edges
 
 
-def main():
+if __name__ == "__main__":
     graph1 = Graph(9)
     graph1.add_edge(0, 1, 4)
     graph1.add_edge(0, 6, 7)
@@ -235,7 +244,3 @@ def main():
     graph1.add_edge(6, 7, 1)
     graph1.add_edge(7, 8, 3)
     graph1.find_mst_with_boruvka()
-
-
-if __name__ == "__main__":
-    main()
