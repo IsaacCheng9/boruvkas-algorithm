@@ -114,9 +114,9 @@ class Graph:
             vertex1_component = vertex_to_component[vertex1]
             vertex2_component = vertex_to_component[vertex2]
 
-            # If the vertices are in different components and the edge is smaller
-            # than the current minimum weight edge for either component, update
-            # them.
+            # If the vertices are in different components and the edge is
+            # smaller than the current minimum weight edge for either
+            # component, update them.
             if vertex1_component != vertex2_component:
                 if (
                     min_connecting_edge_per_component[vertex1_component] == -1
@@ -158,7 +158,7 @@ class Graph:
             The weight of the MST and number of components in the graph.
         """
         for vertex in self.vertices:
-            # If the vertex isn't in a component, skip it.
+            # If the vertex isn't the root of a component, skip it.
             if min_connecting_edge_per_component[vertex] == -1:
                 continue
 
@@ -166,11 +166,11 @@ class Graph:
             # If the other vertex isn't in the same component, connect and
             # merge them in the MST using the shortest edge.
             if vertex_to_component[vertex1] != vertex_to_component[vertex2]:
+                mst_edges.append((vertex1, vertex2, weight))
+                mst_weight += weight
                 self.merge_components(
                     vertex_to_component, component_sizes, vertex1, vertex2
                 )
-                mst_weight += weight
-                mst_edges.append((vertex1, vertex2, weight))
                 # We have one less component as we've merged two.
                 num_components -= 1
                 print(f"Added edge {vertex1} -- {vertex2} with weight {weight} to MST.")
