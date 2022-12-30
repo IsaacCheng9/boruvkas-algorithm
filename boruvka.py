@@ -14,7 +14,6 @@ class Graph:
         Args:
             num_vertices: The number of vertices to generate in the graph.
         """
-        self.num_vertices = num_vertices
         self.vertices = list(range(num_vertices))
         # [(vertex1, vertex2, weight)]
         self.edges = []
@@ -51,9 +50,9 @@ class Graph:
         Returns:
             True if the edge was added successfully.
         """
-        if vertex1 not in range(self.num_vertices):
+        if vertex1 not in range(len(self.vertices)):
             raise ValueError(f"vertex {vertex1} does not exist")
-        if vertex2 not in range(self.num_vertices):
+        if vertex2 not in range(len(self.vertices)):
             raise ValueError(f"vertex {vertex2} does not exist")
 
         self.edges.append((vertex1, vertex2, weight))
@@ -180,8 +179,8 @@ class Graph:
         mst_edges = []
         # Initially, each vertex is its own component as the graph is
         # disconnected.
-        component_sizes = [1] * self.num_vertices
-        num_components = self.num_vertices
+        component_sizes = [1] * len(self.vertices)
+        num_components = len(self.vertices)
         iteration_num = 1
 
         # Continue adding edges until there is only one component, as this
@@ -193,7 +192,7 @@ class Graph:
                 f"    Current MST Weight: {mst_weight}"
             )
             # Reset the list to find the shortest edge of each vertex.
-            min_connecting_edge_per_vertex = [-1] * self.num_vertices
+            min_connecting_edge_per_vertex = [-1] * len(self.vertices)
             # Find the shortest edge for each component, so we have the optimal
             # candidate edges to add to the MST.
             self.update_shortest_edge_per_vertex(min_connecting_edge_per_vertex)
