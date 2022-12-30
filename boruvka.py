@@ -171,7 +171,7 @@ class Graph:
                 self.merge_components(
                     vertex_to_component, component_sizes, vertex1, vertex2
                 )
-                # We have one less component as we've merged two.
+                # We have one less component as we've merged two into one.
                 num_components -= 1
                 print(f"Added edge {vertex1} -- {vertex2} with weight {weight} to MST.")
 
