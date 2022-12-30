@@ -92,7 +92,7 @@ class Graph:
             components[vertex2_component] = vertex1_component
             component_sizes[vertex1_component] += component_sizes[vertex2_component]
 
-    def update_shortest_edge_per_vertex(
+    def update_min_edge_per_vertex(
         self, components: Dict[int, int], min_connecting_edge_per_vertex: List[int]
     ):
         """
@@ -102,8 +102,8 @@ class Graph:
         Args:
             components: A dictionary containing the component of each vertex.
             min_connecting_edge_per_vertex: A list with the shortest edge
-                                                 for each vertex that connects
-                                                 to a new component.
+                                            for each vertex that connects to a
+                                            new component.
         """
         for edge in self.edges:
             vertex1, vertex2, weight = edge
@@ -143,8 +143,8 @@ class Graph:
             components: A dictionary containing the component of each vertex.
             component_sizes: A list of the number of vertices in each
                              component.
-            min_connecting_edge_per_vertex: A list with the shortest edge
-                                                 for each vertex.
+            min_connecting_edge_per_vertex: A list with the shortest edge for
+                                            each vertex.
             mst_edges: A list of edges in the MST.
             mst_weight: The weight of the MST that is being built.
             num_components: The number of components in the graph.
@@ -201,9 +201,7 @@ class Graph:
             min_connecting_edge_per_vertex = [-1] * len(self.vertices)
             # Find the shortest edge for each component, so we have the optimal
             # candidate edges to add to the MST.
-            self.update_shortest_edge_per_vertex(
-                components, min_connecting_edge_per_vertex
-            )
+            self.update_min_edge_per_vertex(components, min_connecting_edge_per_vertex)
             # Connect components where possible, and update the MST weight and
             # number of components accordingly so we can stop when the graph is
             # connected.
