@@ -51,7 +51,7 @@ When Borůvka's algorithm was originally discovered, computers did not exist, so
 \begin{figure}[h]
     \caption{Borůvka's Short Paper \cite{nevsetvril2001otakar}}
     \begin{center}
-        \includegraphics[width=0.55\textwidth]{Boruvka's Short Paper.png}
+        \includegraphics[width=0.58\textwidth]{Boruvka's Short Paper.png}
     \end{center}
 \end{figure}
 
@@ -145,6 +145,14 @@ As Borůvka's algorithm finds a minimum spanning tree, it is most directly appli
 
 We could apply the same principles to networks for communication and transportation \cite{graham1985history}. Transportation networks are a complex problem because they involve many different destination vertices across a country, resulting in numerous different spanning tree routes. For example, the London Underground network is the quintessential mode of transport for most people in London. We can use Borůvka's algorithm to optimise its efficiency by considering various costs. Transport for London may consider the distance cost to minimise the cost of building and maintaining lines. Meanwhile, passengers may use the time cost to reduce their travel times -- Borůvka's algorithm could be advantageous here, as around 5\% of commuters fail to find their optimal route to work \cite{larcom2017benefits}. 
 
+\begin{figure}[h]
+    \caption{London Underground Map \cite{londonUndergroundMap}}
+    \begin{center}
+        \includegraphics[width=1.0\textwidth]{London Underground Map.png}
+    \end{center}
+\end{figure}
+
+\newpage
 \subsection{Two-Approximation for the Travelling Salesperson Problem}
 Borůvka's algorithm satisfies the triangle inequality and finds a minimum spanning tree, so it also acts as a two-approximation algorithm for the travelling salesperson problem \cite{andreae1995performance}, which is NP-hard and thus not possible to solve in polynomial time \cite{junger1995traveling}. Because it produces a two-approximation, the output is at most twice the cost of the optimal solution. This can be proven as the total cost of a full walk is at most twice the cost of the minimum spanning tree, and the algorithm returns a path with a cost less than the full walk, as our pre-order walk replaces two or more edges of the full walk with a single edge \cite{andreae1995performance}.
 
