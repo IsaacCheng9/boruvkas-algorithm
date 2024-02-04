@@ -2,6 +2,9 @@
 Implement Boruvka's algorithm for finding the minimum spanning tree of a graph.
 """
 
+import matplotlib.pyplot as plt
+import networkx as nx
+
 from typing import Dict, List, Optional, Tuple
 
 
@@ -217,6 +220,38 @@ class Graph:
 
         return mst_weight, num_components
 
+    def draw_mst(self, mst_edges: List[Tuple[int, int, int]]) -> None:
+        """
+        Draw the graph with the minimum spanning tree highlighted using
+        networkx.
+
+        Args:
+            mst_edges: A list of edges in the minimum spanning tree.
+        """
+        G = nx.Graph()
+        # Add nodes to the graph.
+        G.add_nodes_from(self.vertices)
+        # Add all edges to the graph with weights.
+        for edge in self.edges:
+            vertex1, vertex2, weight = edge
+            G.add_edge(vertex1, vertex2, weight=weight)
+        pos = nx.spring_layout(G)
+        # Draw the graph edges and highlight the edges in the MST in red.
+        nx.draw_networkx_edges(
+            G, pos, edgelist=self.edges, edge_color="gray", alpha=0.5
+        )
+        nx.draw_networkx_edges(G, pos, edgelist=mst_edges, edge_color="red", width=2)
+        # Draw the graph nodes and labels.
+        nx.draw_networkx_nodes(G, pos, node_size=700, node_color="lightblue")
+        nx.draw_networkx_labels(G, pos)
+        nx.draw_networkx_edge_labels(
+            G, pos, edge_labels={(u, v): d["weight"] for u, v, d in G.edges(data=True)}
+        )
+
+        plt.title("Graph with Minimum Spanning Tree Highlighted")
+        plt.axis("off")
+        plt.show()
+
     def run_boruvkas_algorithm(self):
         """
         Find the minimum spanning tree (MST) of the graph using Boruvka's
@@ -268,23 +303,25 @@ def main():
     """
     Run Boruvka's algorithm on an example graph.
     """
-    graph1 = Graph(9)
-    graph1.add_edge(0, 1, 4)
-    graph1.add_edge(0, 6, 7)
-    graph1.add_edge(1, 6, 11)
-    graph1.add_edge(1, 7, 20)
-    graph1.add_edge(1, 2, 9)
-    graph1.add_edge(2, 3, 6)
-    graph1.add_edge(2, 4, 2)
-    graph1.add_edge(3, 4, 10)
-    graph1.add_edge(3, 5, 5)
-    graph1.add_edge(4, 5, 15)
-    graph1.add_edge(4, 7, 1)
-    graph1.add_edge(4, 8, 5)
-    graph1.add_edge(5, 8, 12)
-    graph1.add_edge(6, 7, 1)
-    graph1.add_edge(7, 8, 3)
-    graph1.run_boruvkas_algorithm()
+    graph = Graph(9)
+    graph.add_edge(0, 1, 4)
+    graph.add_edge(0, 6, 7)
+    graph.add_edge(1, 6, 11)
+    graph.add_edge(1, 7, 20)
+    graph.add_edge(1, 2, 9)
+    graph.add_edge(2, 3, 6)
+    graph.add_edge(2, 4, 2)
+    graph.add_edge(3, 4, 10)
+    graph.add_edge(3, 5, 5)
+    graph.add_edge(4, 5, 15)
+    graph.add_edge(4, 7, 1)
+    graph.add_edge(4, 8, 5)
+    graph.add_edge(5, 8, 12)
+    graph.add_edge(6, 7, 1)
+    graph.add_edge(7, 8, 3)
+    _, mst_edges = graph.run_boruvkas_algorithm()
+    # Draw the graph with the minimum spanning tree highlighted.
+    graph.draw_mst(mst_edges)
 
 
 if __name__ == "__main__":

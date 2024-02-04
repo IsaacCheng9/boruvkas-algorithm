@@ -1,4 +1,5 @@
 import pytest
+
 from src.boruvkas_algorithm.boruvka import Graph
 
 
