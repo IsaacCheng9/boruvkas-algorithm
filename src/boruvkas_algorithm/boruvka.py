@@ -263,7 +263,7 @@ class Graph:
         return mst_weight, mst_edges
 
 
-if __name__ == "__main__":
+def main():
     graph1 = Graph(9)
     graph1.add_edge(0, 1, 4)
     graph1.add_edge(0, 6, 7)
@@ -281,3 +281,7 @@ if __name__ == "__main__":
     graph1.add_edge(6, 7, 1)
     graph1.add_edge(7, 8, 3)
     graph1.run_boruvkas_algorithm()
+
+
+if __name__ == "__main__":
+    main()
