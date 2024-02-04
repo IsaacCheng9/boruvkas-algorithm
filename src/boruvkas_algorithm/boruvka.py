@@ -1,7 +1,7 @@
 """
 Implement Boruvka's algorithm for finding the minimum spanning tree of a graph.
 """
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 
 class Graph:
@@ -84,7 +84,7 @@ class Graph:
     def update_min_edge_per_component(
         self,
         vertex_to_component: Dict[int, int],
-        min_connecting_edge_per_component: List[Tuple],
+        min_connecting_edge_per_component: List[Optional[Tuple]],
     ):
         """
         Check each edge and update the shortest edge for each vertex if it
@@ -121,7 +121,7 @@ class Graph:
     def connect_components_with_min_edges(
         self,
         component_sizes: List[int],
-        min_connecting_edge_per_component: List[Tuple],
+        min_connecting_edge_per_component: List[Optional[Tuple]],
         mst_edges: List[Tuple[int, int, int]],
         mst_weight: int,
         vertex_to_component: Dict[int, int],
@@ -198,7 +198,7 @@ class Graph:
             Tuple containing the updated MST weight and number of components.
         """
         # Initialize list to store minimum connecting edge for each component.
-        min_connecting_edge_per_component = [(None, None, None)] * len(self.vertices)
+        min_connecting_edge_per_component = [None] * len(self.vertices)
         # Update the minimum connecting edge for each component.
         self.update_min_edge_per_component(
             vertex_to_component, min_connecting_edge_per_component
@@ -264,6 +264,9 @@ class Graph:
 
 
 def main():
+    """
+    Run Boruvka's algorithm on an example graph.
+    """
     graph1 = Graph(9)
     graph1.add_edge(0, 1, 4)
     graph1.add_edge(0, 6, 7)
