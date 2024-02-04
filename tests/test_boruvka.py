@@ -8,9 +8,10 @@ def setup_graph():
     Fixture to create a graph instance for testing.
 
     Returns:
-        An instance of the Graph class initialized with a predetermined number of vertices.
+        An instance of the Graph class initialized with a predetermined number
+        of vertices.
     """
-    return Graph(9)  # Example graph with 9 vertices
+    return Graph(9)  # Example graph with 9 vertices.
 
 
 def test_add_edge(setup_graph: Graph):
@@ -32,7 +33,8 @@ def test_add_edge_invalid_vertices(setup_graph: Graph):
     """
     graph = setup_graph
     with pytest.raises(ValueError):
-        graph.add_edge(10, 11, 5)  # Using vertex indices that do not exist in the graph
+        # Use vertex indices that do not exist in the graph.
+        graph.add_edge(10, 11, 5)
 
 
 def test_mst(setup_graph: Graph):
@@ -41,7 +43,7 @@ def test_mst(setup_graph: Graph):
     to known MST values for a predefined graph.
     """
     graph = setup_graph
-    # Add edges to setup_graph fixture to form a specific connected graph
+    # Add edges to setup_graph fixture to form a specific connected graph.
     graph.add_edge(0, 1, 4)
     graph.add_edge(0, 6, 7)
     graph.add_edge(1, 6, 11)
@@ -59,7 +61,7 @@ def test_mst(setup_graph: Graph):
     graph.add_edge(7, 8, 3)
 
     mst_weight, mst_edges = graph.run_boruvkas_algorithm()
-    expected_weight = 29  # Adjust based on the full set of edges added above
+    expected_weight = 29
     expected_edges = [
         (0, 1, 4),
         (0, 6, 7),
@@ -82,6 +84,6 @@ def test_graph_initialization():
     Test that a graph is initialized with the correct number of vertices and
     no edges.
     """
-    graph = Graph(5)  # Initialize a graph with 5 vertices
+    graph = Graph(5)  # Initialize a graph with 5 vertices.
     assert len(graph.vertices) == 5, "Graph should have 5 vertices"
     assert len(graph.edges) == 0, "Graph should be initialized with no edges"
