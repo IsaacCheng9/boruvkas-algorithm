@@ -8,7 +8,7 @@ An implementation of Boruvka's algorithm to find a minimum spanning tree in a gr
 [Link to narrated video demonstration on YouTube.](https://www.youtube.com/watch?v=n5LNVobuBNU)
 
 ## Example
-<img width="493" alt="image" src="https://github.com/IsaacCheng9/boruvkas-algorithm/assets/47993930/c0e8bdb1-13ca-40b9-b3b6-490137db3f96">
+<img width="481" alt="image" src="https://github.com/IsaacCheng9/boruvkas-algorithm/assets/47993930/70c6d09e-7273-4416-8194-f4fe37701ef2">
 
 <details>
   <summary>stdout (Terminal Output)</summary>
