@@ -289,13 +289,12 @@ class Graph:
                 mst_weight,
             )
 
-        # Summarise the MST found and draw it.
+        # Summarise the MST found.
         print("\nMST found with Boruvka's algorithm.")
         print("MST edges (vertex_1, vertex_2, weight):")
         for edge in sorted(mst_edges):
             print(f"    {edge}")
         print(f"MST weight: {mst_weight}")
-        self.draw_mst(mst_edges)
 
         return mst_weight, mst_edges
 
@@ -304,23 +303,25 @@ def main():
     """
     Run Boruvka's algorithm on an example graph.
     """
-    graph1 = Graph(9)
-    graph1.add_edge(0, 1, 4)
-    graph1.add_edge(0, 6, 7)
-    graph1.add_edge(1, 6, 11)
-    graph1.add_edge(1, 7, 20)
-    graph1.add_edge(1, 2, 9)
-    graph1.add_edge(2, 3, 6)
-    graph1.add_edge(2, 4, 2)
-    graph1.add_edge(3, 4, 10)
-    graph1.add_edge(3, 5, 5)
-    graph1.add_edge(4, 5, 15)
-    graph1.add_edge(4, 7, 1)
-    graph1.add_edge(4, 8, 5)
-    graph1.add_edge(5, 8, 12)
-    graph1.add_edge(6, 7, 1)
-    graph1.add_edge(7, 8, 3)
-    graph1.run_boruvkas_algorithm()
+    graph = Graph(9)
+    graph.add_edge(0, 1, 4)
+    graph.add_edge(0, 6, 7)
+    graph.add_edge(1, 6, 11)
+    graph.add_edge(1, 7, 20)
+    graph.add_edge(1, 2, 9)
+    graph.add_edge(2, 3, 6)
+    graph.add_edge(2, 4, 2)
+    graph.add_edge(3, 4, 10)
+    graph.add_edge(3, 5, 5)
+    graph.add_edge(4, 5, 15)
+    graph.add_edge(4, 7, 1)
+    graph.add_edge(4, 8, 5)
+    graph.add_edge(5, 8, 12)
+    graph.add_edge(6, 7, 1)
+    graph.add_edge(7, 8, 3)
+    _, mst_edges = graph.run_boruvkas_algorithm()
+    # Draw the graph with the minimum spanning tree highlighted.
+    graph.draw_mst(mst_edges)
 
 
 if __name__ == "__main__":
