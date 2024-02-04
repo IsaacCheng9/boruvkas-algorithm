@@ -87,10 +87,14 @@ class Graph:
 
         # Merge the smaller component into the larger component.
         if component_sizes[vertex1_component] < component_sizes[vertex2_component]:
-            vertex_to_component[vertex1_component] = vertex2_component
+            for v in vertex_to_component:
+                if vertex_to_component[v] == vertex1_component:
+                    vertex_to_component[v] = vertex2_component
             component_sizes[vertex2_component] += component_sizes[vertex1_component]
         else:
-            vertex_to_component[vertex2_component] = vertex1_component
+            for v in vertex_to_component:
+                if vertex_to_component[v] == vertex2_component:
+                    vertex_to_component[v] = vertex1_component
             component_sizes[vertex1_component] += component_sizes[vertex2_component]
 
     def update_min_edge_per_component(
