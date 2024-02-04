@@ -160,7 +160,63 @@ class Graph:
 
         return mst_weight, num_components
 
-    def find_mst_with_boruvka(self) -> Tuple[int, List[Tuple[int, int, int]]]:
+    def initialize_components(self) -> Tuple[Dict[int, int], List[int], int]:
+        """
+        Initialize each vertex as its own component with size 1, and set the
+        initial number of components equal to the number of vertices.
+
+        Returns:
+            Tuple containing the mapping of vertex to its component, the list
+            of component sizes, and the initial number of components.
+        """
+        vertex_to_component = {vertex: vertex for vertex in self.vertices}
+        component_sizes = [1] * len(self.vertices)
+        num_components = len(self.vertices)
+        return vertex_to_component, component_sizes, num_components
+
+    def perform_iteration(
+        self,
+        vertex_to_component: Dict[int, int],
+        component_sizes: List[int],
+        num_components: int,
+        mst_edges: List[Tuple[int, int, int]],
+        mst_weight: int,
+    ):
+        """
+        Perform one iteration of Boruvka's algorithm, finding the minimum
+        connecting edge for each component and connecting components using
+        these edges.
+
+        Args:
+            vertex_to_component: Mapping of vertices to their component.
+            component_sizes: List containing the sizes of each component.
+            num_components: Total number of components in the graph.
+            mst_edges: List of edges in the minimum spanning tree so far.
+            mst_weight: Total weight of the minimum spanning tree so far.
+
+        Returns:
+            Tuple containing the updated MST weight and number of components.
+        """
+        # Initialize list to store minimum connecting edge for each component.
+        min_connecting_edge_per_component = [None] * len(self.vertices)
+        # Update the minimum connecting edge for each component.
+        self.update_min_edge_per_component(
+            vertex_to_component, min_connecting_edge_per_component
+        )
+        # Connect components using the minimum connecting edges and update MST
+        # weight and number of components.
+        mst_weight, num_components = self.connect_components_with_min_edges(
+            component_sizes,
+            min_connecting_edge_per_component,
+            mst_edges,
+            mst_weight,
+            vertex_to_component,
+            num_components,
+        )
+
+        return mst_weight, num_components
+
+    def run_boruvkas_algorithm(self):
         """
         Find the minimum spanning tree (MST) of the graph using Boruvka's
         algorithm.
@@ -171,17 +227,13 @@ class Graph:
         """
         print("\nFinding MST with Boruvka's algorithm:")
         self.print_graph_info()
-
-        # Initial weight of MST.
         mst_weight = 0
-        # List to store edges of the MST.
         mst_edges = []
-        # Initially, each vertex is its own component.
-        vertex_to_component = {vertex: vertex for vertex in self.vertices}
-        # Initial size of each component is 1.
-        component_sizes = [1] * len(self.vertices)
-        # Initial number of components is equal to the number of vertices.
-        num_components = len(self.vertices)
+        (
+            vertex_to_component,
+            component_sizes,
+            num_components,
+        ) = self.initialize_components()
         # Track the number of iterations.
         num_iterations = 0
 
@@ -189,30 +241,19 @@ class Graph:
         while num_components > 1:
             num_iterations += 1
             print(
-                f"\nIteration {num_iterations}:\n"
-                f"Current MST edges: {mst_edges}\nCurrent MST Weight: {mst_weight}"
+                f"\nIteration {num_iterations}:\nCurrent MST edges: {mst_edges}\n"
+                f"Current MST Weight: {mst_weight}"
             )
-
-            # Initialize list to store minimum connecting edge for each
-            # component.
-            min_connecting_edge_per_component = [None] * len(self.vertices)
-
-            # Update the minimum connecting edge for each component.
-            self.update_min_edge_per_component(
-                vertex_to_component, min_connecting_edge_per_component
-            )
-
-            # Connect components using the minimum connecting edges and update
-            # MST weight and number of components.
-            mst_weight, num_components = self.connect_components_with_min_edges(
+            # Perform one iteration of the algorithm.
+            mst_weight, num_components = self.perform_iteration(
+                vertex_to_component,
                 component_sizes,
-                min_connecting_edge_per_component,
+                num_components,
                 mst_edges,
                 mst_weight,
-                vertex_to_component,
-                num_components,
             )
 
+        # Summarise the MST found.
         print("\nMST found with Boruvka's algorithm.")
         print("MST edges (vertex_1, vertex_2, weight):")
         for edge in sorted(mst_edges):
@@ -239,4 +280,4 @@ if __name__ == "__main__":
     graph1.add_edge(5, 8, 12)
     graph1.add_edge(6, 7, 1)
     graph1.add_edge(7, 8, 3)
-    graph1.find_mst_with_boruvka()
+    graph1.run_boruvkas_algorithm()
