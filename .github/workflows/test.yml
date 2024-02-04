@@ -39,7 +39,7 @@ jobs:
           poetry install
 
       - name: Run unit tests with Pytest
-        run: poetry run coverage run --source=src/trading_portfolio_tracker -m pytest -v
+        run: poetry run coverage run --source=src/boruvkas_algorithm -m pytest -v
 
       - name: Get code coverage report
         run: poetry run coverage report -m
