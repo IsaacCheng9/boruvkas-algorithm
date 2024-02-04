@@ -1,6 +1,7 @@
 """
 Implement Boruvka's algorithm for finding the minimum spanning tree of a graph.
 """
+
 from typing import Dict, List, Optional, Tuple
 
 
