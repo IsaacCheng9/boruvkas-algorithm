@@ -137,3 +137,6 @@ dmypy.json
 *.bbl
 *.blg
 *.out
+
+# VS Code config files
+.vscode/

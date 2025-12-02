@@ -6,7 +6,7 @@ authors = ["Isaac Cheng <47993930+IsaacCheng9@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.14"
 coverage = "^7.4.1"
 black = "^24.3.0"
 matplotlib = "^3.8.2"
