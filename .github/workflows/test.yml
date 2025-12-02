@@ -10,7 +10,7 @@ on:
 jobs:
   test:
     # The type of runner that the job will run on.
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     # Configures the build to use the latest version of Python 3.
     strategy:
       matrix:
