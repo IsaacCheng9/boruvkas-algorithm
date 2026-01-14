@@ -9,15 +9,14 @@ import networkx as nx
 class Graph:
     """A graph that contains nodes and edges."""
 
-    def __init__(self, num_vertices: int) -> None:
+    def __init__(self, num_nodes: int) -> None:
         """
         Initialises the graph with a given number of vertices.
 
         Args:
             num_nodes: The number of nodes to generate in the graph.
-            num_vertices: The number of vertices to generate in the graph.
         """
-        self.vertices: list[int] = list(range(num_vertices))
+        self.vertices: list[int] = list(range(num_nodes))
         # [(node1, node2, weight)]
         self.edges: list[tuple[int, int, int]] = []
 
