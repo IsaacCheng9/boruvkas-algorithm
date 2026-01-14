@@ -75,9 +75,9 @@ def test_mst(setup_graph: Graph):
     ]
 
     assert mst_weight == expected_weight, "MST weight does not match expected value"
-    assert sorted(mst_edges) == sorted(expected_edges), (
-        "MST edges do not match expected edges"
-    )
+    assert sorted(mst_edges) == sorted(
+        expected_edges
+    ), "MST edges do not match expected edges"
 
 
 def test_graph_initialization():
