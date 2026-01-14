@@ -30,11 +30,11 @@ def test_add_edge_invalid_vertices(setup_graph: Graph):
     Test the addition of an edge with non-existing vertices.
 
     Expects a ValueError to be raised when trying to add an edge with at least
-    one non-existing vertex.
+    one non-existing node.
     """
     graph = setup_graph
     with pytest.raises(ValueError):
-        # Use vertex indices that do not exist in the graph.
+        # Use node indices that do not exist in the graph.
         graph.add_edge(10, 11, 5)
 
 

@@ -7,45 +7,41 @@ import networkx as nx
 
 
 class Graph:
-    """
-    A graph that contains vertices and edges.
-    """
-
     def __init__(self, num_vertices: int):
         """
         Args:
             num_vertices: The number of vertices to generate in the graph.
         """
         self.vertices: list[int] = list(range(num_vertices))
-        # [(vertex_1, vertex_2, weight)]
+        # [(node1, node2, weight)]
         self.edges: list[tuple[int, int, int]] = []
         # Each node is its own parent initially.
         self.parent: list[int] = list(range(num_vertices))
         # Each tree has size 1 (itself) initially.
         self.rank: list[int] = [1] * num_vertices
 
-    def add_edge(self, vertex_1: int, vertex_2: int, weight: int) -> None:
+    def add_edge(self, node1: int, node2: int, weight: int) -> None:
         """
         Add an edge to the graph.
 
         Args:
-            vertex_1: The first vertex of the edge.
-            vertex_2: The second vertex of the edge.
+            node1: The first node of the edge.
+            node2: The second node of the edge.
             weight: The weight of the edge.
 
         Raises:
-            ValueError: If either vertex does not exist in the graph.
+            ValueError: If either node does not exist in the graph.
         """
-        if vertex_1 not in self.vertices or vertex_2 not in self.vertices:
+        if node1 not in self.vertices or node2 not in self.vertices:
             raise ValueError("One or both vertices not found in graph.")
-        self.edges.append((vertex_1, vertex_2, weight))
+        self.edges.append((node1, node2, weight))
 
     def print_graph_info(self) -> None:
         """
         Print the graph's vertices and edges.
         """
         print(f"Vertices: {self.vertices}")
-        print("Edges (vertex_1, vertex_2, weight):")
+        print("Edges (node1, node2, weight):")
         for edge in sorted(self.edges):
             print(f"    {edge}")
 
@@ -97,101 +93,52 @@ class Graph:
 
         return True
 
-    def merge_components(
-        self,
-        vertex_to_component: dict[int, int],
-        component_sizes: list[int],
-        vertex_1: int,
-        vertex_2: int,
-    ) -> None:
+    def update_min_edge_per_component(self, min_connecting_edge_per_component: list):
         """
-        Merge two components of the graph into one, ensuring that the smaller
-        component is merged into the larger one to optimize the merging
-        process.
-
-        Args:
-            vertex_to_component: A mapping of vertices to their component
-                                 identifiers.
-            component_sizes: A list where the index represents the component
-                             identifier and the value is the size of the
-                             component.
-            vertex_1: A vertex in the first component to be merged.
-            vertex_2: A vertex in the second component to be merged.
-        """
-        # Identify the components of the two vertices.
-        component_1 = vertex_to_component[vertex_1]
-        component_2 = vertex_to_component[vertex_2]
-
-        # Determine the smaller and larger components.
-        if component_sizes[component_1] < component_sizes[component_2]:
-            smaller, larger = component_1, component_2
-        else:
-            smaller, larger = component_2, component_1
-
-        # Merge the smaller component into larger component.
-        for vertex, component in vertex_to_component.items():
-            if component == smaller:
-                vertex_to_component[vertex] = larger
-        # Update the size of the larger component.
-        component_sizes[larger] += component_sizes[smaller]
-
-    def update_min_edge_per_component(
-        self,
-        vertex_to_component: dict[int, int],
-        min_connecting_edge_per_component: list,
-    ):
-        """
-        Check each edge and update the shortest edge for each vertex if it
+        Check each edge and update the shortest edge for each node if it
         connects two components together.
 
         Args:
-            vertex_to_component: A dictionary containing the component of each
-                                 vertex.
             min_connecting_edge_per_component: A list with the shortest edge
-                                               for each vertex that connects to
+                                               for each node that connects to
                                                a new component.
         """
         for edge in self.edges:
-            vertex_1, vertex_2, weight = edge
-            vertex_1_component = vertex_to_component[vertex_1]
-            vertex_2_component = vertex_to_component[vertex_2]
+            node1, node2, weight = edge
+            node1_component = self.find(node1)
+            node2_component = self.find(node2)
 
             # If the vertices are in different components and the edge is
             # smaller than the current minimum weight edge for either
             # component, update them.
-            if vertex_1_component != vertex_2_component:
+            if node1_component != node2_component:
                 if (
-                    not min_connecting_edge_per_component[vertex_1_component]
-                    or weight < min_connecting_edge_per_component[vertex_1_component][2]
+                    not min_connecting_edge_per_component[node1_component]
+                    or weight < min_connecting_edge_per_component[node1_component][2]
                 ):
-                    min_connecting_edge_per_component[vertex_1_component] = edge
+                    min_connecting_edge_per_component[node1_component] = edge
 
                 if (
-                    not min_connecting_edge_per_component[vertex_2_component]
-                    or weight < min_connecting_edge_per_component[vertex_2_component][2]
+                    not min_connecting_edge_per_component[node2_component]
+                    or weight < min_connecting_edge_per_component[node2_component][2]
                 ):
-                    min_connecting_edge_per_component[vertex_2_component] = edge
+                    min_connecting_edge_per_component[node2_component] = edge
 
     def connect_components_with_min_edges(
         self,
-        component_sizes: list[int],
         min_connecting_edge_per_component: list,
         mst_edges: list[tuple[int, int, int]],
         mst_weight: int,
-        vertex_to_component: dict[int, int],
         num_components: int,
     ) -> tuple[int, int]:
         """
         Connect components using the minimum connecting edges.
 
         Args:
-            component_sizes: List containing the sizes of each component.
             min_connecting_edge_per_component: List storing the shortest edge
                                                for each component.
             mst_edges: List of edges in the minimum spanning tree.
             mst_weight: Total weight of the minimum spanning tree.
-            vertex_to_component: Dictionary mapping vertices to their
-                                 component.
             num_components: Total number of components in the graph.
 
         Returns:
@@ -199,39 +146,18 @@ class Graph:
         """
         for edge in min_connecting_edge_per_component:
             if edge is not None:
-                vertex_1, vertex_2, weight = edge
-                if vertex_to_component[vertex_1] != vertex_to_component[vertex_2]:
-                    mst_edges.append((vertex_1, vertex_2, weight))
+                node1, node2, weight = edge
+                if self.find(node1) != self.find(node2):
+                    mst_edges.append((node1, node2, weight))
                     mst_weight += weight
-                    self.merge_components(
-                        vertex_to_component, component_sizes, vertex_1, vertex_2
-                    )
+                    self.union(node1, node2)
                     num_components -= 1
-                    print(
-                        f"Added edge {vertex_1} - {vertex_2} with "
-                        f"weight {weight} to MST."
-                    )
+                    print(f"Added edge {node1} - {node2} with weight {weight} to MST.")
 
         return mst_weight, num_components
 
-    def initialize_components(self) -> tuple[dict[int, int], list[int], int]:
-        """
-        Initialize each vertex as its own component with size 1, and set the
-        initial number of components equal to the number of vertices.
-
-        Returns:
-            Tuple containing the mapping of vertex to its component, the list
-            of component sizes, and the initial number of components.
-        """
-        vertex_to_component = {vertex: vertex for vertex in self.vertices}
-        component_sizes = [1] * len(self.vertices)
-        num_components = len(self.vertices)
-        return vertex_to_component, component_sizes, num_components
-
     def perform_iteration(
         self,
-        vertex_to_component: dict[int, int],
-        component_sizes: list[int],
         num_components: int,
         mst_edges: list[tuple[int, int, int]],
         mst_weight: int,
@@ -242,8 +168,6 @@ class Graph:
         these edges.
 
         Args:
-            vertex_to_component: Mapping of vertices to their component.
-            component_sizes: List containing the sizes of each component.
             num_components: Total number of components in the graph.
             mst_edges: List of edges in the minimum spanning tree so far.
             mst_weight: Total weight of the minimum spanning tree so far.
@@ -254,17 +178,13 @@ class Graph:
         # Initialize list to store minimum connecting edge for each component.
         min_connecting_edge_per_component = [None] * len(self.vertices)
         # Update the minimum connecting edge for each component.
-        self.update_min_edge_per_component(
-            vertex_to_component, min_connecting_edge_per_component
-        )
+        self.update_min_edge_per_component(min_connecting_edge_per_component)
         # Connect components using the minimum connecting edges and update MST
         # weight and number of components.
         mst_weight, num_components = self.connect_components_with_min_edges(
-            component_sizes,
             min_connecting_edge_per_component,
             mst_edges,
             mst_weight,
-            vertex_to_component,
             num_components,
         )
 
@@ -283,8 +203,8 @@ class Graph:
         G.add_nodes_from(self.vertices)
         # Add all edges to the graph with weights.
         for edge in self.edges:
-            vertex1, vertex2, weight = edge
-            G.add_edge(vertex1, vertex2, weight=weight)
+            node1, node2, weight = edge
+            G.add_edge(node1, node2, weight=weight)
         pos = nx.spring_layout(G)
         # Draw the graph edges and highlight the edges in the MST in red.
         nx.draw_networkx_edges(
@@ -315,11 +235,7 @@ class Graph:
         self.print_graph_info()
         mst_weight = 0
         mst_edges = []
-        (
-            vertex_to_component,
-            component_sizes,
-            num_components,
-        ) = self.initialize_components()
+        num_components = len(self.vertices)
         # Track the number of iterations.
         num_iterations = 0
 
@@ -332,8 +248,6 @@ class Graph:
             )
             # Perform one iteration of the algorithm.
             mst_weight, num_components = self.perform_iteration(
-                vertex_to_component,
-                component_sizes,
                 num_components,
                 mst_edges,
                 mst_weight,
@@ -341,7 +255,7 @@ class Graph:
 
         # Summarise the MST found.
         print("\nMST found with Boruvka's algorithm.")
-        print("MST edges (vertex_1, vertex_2, weight):")
+        print("MST edges (node1, node2, weight):")
         for edge in sorted(mst_edges):
             print(f"    {edge}")
         print(f"MST weight: {mst_weight}")
