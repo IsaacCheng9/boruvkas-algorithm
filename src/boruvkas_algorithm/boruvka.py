@@ -5,8 +5,6 @@ Implement Boruvka's algorithm for finding the minimum spanning tree of a graph.
 import matplotlib.pyplot as plt
 import networkx as nx
 
-from typing import Dict, List, Optional, Tuple
-
 
 class Graph:
     """
@@ -101,8 +99,8 @@ class Graph:
 
     def merge_components(
         self,
-        vertex_to_component: Dict[int, int],
-        component_sizes: List[int],
+        vertex_to_component: dict[int, int],
+        component_sizes: list[int],
         vertex_1: int,
         vertex_2: int,
     ) -> None:
@@ -139,8 +137,8 @@ class Graph:
 
     def update_min_edge_per_component(
         self,
-        vertex_to_component: Dict[int, int],
-        min_connecting_edge_per_component: List[Optional[Tuple]],
+        vertex_to_component: dict[int, int],
+        min_connecting_edge_per_component: list,
     ):
         """
         Check each edge and update the shortest edge for each vertex if it
@@ -176,13 +174,13 @@ class Graph:
 
     def connect_components_with_min_edges(
         self,
-        component_sizes: List[int],
-        min_connecting_edge_per_component: List[Optional[Tuple]],
-        mst_edges: List[Tuple[int, int, int]],
+        component_sizes: list[int],
+        min_connecting_edge_per_component: list,
+        mst_edges: list[tuple[int, int, int]],
         mst_weight: int,
-        vertex_to_component: Dict[int, int],
+        vertex_to_component: dict[int, int],
         num_components: int,
-    ) -> Tuple[int, int]:
+    ) -> tuple[int, int]:
         """
         Connect components using the minimum connecting edges.
 
@@ -216,7 +214,7 @@ class Graph:
 
         return mst_weight, num_components
 
-    def initialize_components(self) -> Tuple[Dict[int, int], List[int], int]:
+    def initialize_components(self) -> tuple[dict[int, int], list[int], int]:
         """
         Initialize each vertex as its own component with size 1, and set the
         initial number of components equal to the number of vertices.
@@ -232,10 +230,10 @@ class Graph:
 
     def perform_iteration(
         self,
-        vertex_to_component: Dict[int, int],
-        component_sizes: List[int],
+        vertex_to_component: dict[int, int],
+        component_sizes: list[int],
         num_components: int,
-        mst_edges: List[Tuple[int, int, int]],
+        mst_edges: list[tuple[int, int, int]],
         mst_weight: int,
     ):
         """
@@ -272,7 +270,7 @@ class Graph:
 
         return mst_weight, num_components
 
-    def draw_mst(self, mst_edges: List[Tuple[int, int, int]]) -> None:
+    def draw_mst(self, mst_edges: list[tuple[int, int, int]]) -> None:
         """
         Draw the graph with the minimum spanning tree highlighted using
         networkx.
