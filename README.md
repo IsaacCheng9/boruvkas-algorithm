@@ -1,13 +1,14 @@
 # Boruvka's Algorithm
 
-[![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Test](https://github.com/IsaacCheng9/boruvkas-algorithm/actions/workflows/test.yml/badge.svg)](https://github.com/IsaacCheng9/boruvkas-algorithm/actions/workflows/test.yml)
 
-An implementation of Boruvka's algorithm to find a minimum spanning tree in a graph.
+An implementation of Boruvka's algorithm to find a minimum spanning tree in a
+graph.
 
 [Link to narrated video demonstration on YouTube.](https://www.youtube.com/watch?v=n5LNVobuBNU)
 
 ## Example
+
 <img width="481" alt="image" src="https://github.com/IsaacCheng9/boruvkas-algorithm/assets/47993930/70c6d09e-7273-4416-8194-f4fe37701ef2">
 
 <details>
@@ -61,16 +62,19 @@ MST edges (node1, node2, weight):
     (7, 8, 3)
 MST weight: 29
 ```
+
 </details>
 
 ## Usage
 
 ### Installing Dependencies
 
+Install [uv](https://docs.astral.sh/uv/) if you haven't already.
+
 Run the following command from the [project root](./) directory:
 
 ```bash
-poetry install
+uv sync --dev
 ```
 
 ### Running the Application
@@ -78,7 +82,7 @@ poetry install
 Run the following command from the [project root](./) directory:
 
 ```bash
-poetry run app
+uv run python -m src.boruvkas_algorithm.boruvka
 ```
 
 ### Running Tests
@@ -86,5 +90,5 @@ poetry run app
 Run the following command from the [project root](./) directory:
 
 ```bash
-poetry run pytest
+uv run pytest -v
 ```

@@ -1,24 +1,27 @@
-[tool.poetry]
+[project]
 name = "boruvkas-algorithm"
 version = "0.1.0"
 description = "An implementation of Boruvka's algorithm to find a minimum spanning tree in a graph."
-authors = ["Isaac Cheng <47993930+IsaacCheng9@users.noreply.github.com>"]
+authors = [
+    { name = "Isaac Cheng", email = "47993930+IsaacCheng9@users.noreply.github.com" },
+]
 readme = "README.md"
+requires-python = ">=3.14"
+dependencies = ["matplotlib>=3.8.2", "networkx>=3.2.1"]
 
-[tool.poetry.dependencies]
-python = "^3.14"
-coverage = "^7.4.1"
-black = "^24.3.0"
-matplotlib = "^3.8.2"
-networkx = "^3.2.1"
 
-[tool.poetry.scripts]
-app = "src.boruvkas_algorithm.boruvka:main"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.0.0"
-isort = "^5.13.2"
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.14.11",
+    "ty>=0.0.11",
+    "coverage>=7.13.1",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.coverage.run]
+source = ["src/boruvkas_algorithm"]
+omit = ["tests/*"]
