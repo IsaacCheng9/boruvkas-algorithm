@@ -1,6 +1,6 @@
 import pytest
 
-from src.boruvkas_algorithm.boruvka import Graph
+from boruvkas_algorithm.boruvka import Graph, find_mst_with_boruvkas_algorithm
 
 
 @pytest.fixture
@@ -27,20 +27,20 @@ def test_add_edge(setup_graph: Graph):
 
 def test_add_edge_invalid_vertices(setup_graph: Graph):
     """
-    Test the addition of an edge with non-existing vertices.
+    Tests the addition of an edge with non-existing vertices.
 
     Expects a ValueError to be raised when trying to add an edge with at least
-    one non-existing vertex.
+    one non-existing node.
     """
     graph = setup_graph
     with pytest.raises(ValueError):
-        # Use vertex indices that do not exist in the graph.
+        # Use node indices that do not exist in the graph.
         graph.add_edge(10, 11, 5)
 
 
 def test_mst(setup_graph: Graph):
     """
-    Test that the MST has the correct total weight and structure by comparing
+    Tests that the MST has the correct total weight and structure by comparing
     to known MST values for a predefined graph.
     """
     graph = setup_graph
@@ -61,7 +61,7 @@ def test_mst(setup_graph: Graph):
     graph.add_edge(6, 7, 1)
     graph.add_edge(7, 8, 3)
 
-    mst_weight, mst_edges = graph.run_boruvkas_algorithm()
+    mst_weight, mst_edges = find_mst_with_boruvkas_algorithm(graph)
     expected_weight = 29
     expected_edges = [
         (0, 1, 4),
