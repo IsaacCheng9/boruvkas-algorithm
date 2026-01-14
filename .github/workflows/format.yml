@@ -2,30 +2,26 @@ name: Format
 
 on: [push]
 
+permissions:
+  contents: write
+
 jobs:
   format:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.14.x]
-
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Run Python code formatting with Black
-        uses: lgeiger/black-action@v1.0.1
+      - name: Ruff format
+        uses: astral-sh/ruff-action@v3
         with:
-          args: "."
+          args: format
 
-      - name: Commit changes made by Black
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Ruff lint (fix)
+        uses: astral-sh/ruff-action@v3
         with:
-          commit_message: Format Python code with Black
+          args: check --fix
 
-      - name: Switch to current branch
-        run: git checkout ${{ env.BRANCH }}
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3.1.4
+      - name: Commit changes made by Ruff
+        uses: stefanzweifel/git-auto-commit-action@master
         with:
-          python-version: ${{ matrix.python-version }}
+          commit_message: Format Python code with Ruff
