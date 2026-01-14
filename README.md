@@ -34,20 +34,35 @@ Edges (node1, node2, weight):
     (6, 7, 1)
     (7, 8, 3)
 
-Iteration 1: Current MST edges: [] Current MST Weight: 0 Added edge 0 - 1 with
-weight 4 to MST. Added edge 2 - 4 with weight 2 to MST. Added edge 3 - 5 with
-weight 5 to MST. Added edge 4 - 7 with weight 1 to MST. Added edge 6 - 7 with
-weight 1 to MST. Added edge 7 - 8 with weight 3 to MST.
+Iteration 1:
+Current MST edges: []
+Current MST Weight: 0
+Added edge 0 - 1 with weight 4 to MST.
+Added edge 2 - 4 with weight 2 to MST.
+Added edge 3 - 5 with weight 5 to MST.
+Added edge 4 - 7 with weight 1 to MST.
+Added edge 6 - 7 with weight 1 to MST.
+Added edge 7 - 8 with weight 3 to MST.
 
-Iteration 2: Current MST edges: [(0, 1, 4), (2, 4, 2), (3, 5, 5), (4, 7, 1), (6,
-7, 1), (7, 8, 3)] Current MST Weight: 16 Added edge 0 - 6 with weight 7 to MST.
+Iteration 2:
+Current MST edges: [(0, 1, 4), (2, 4, 2), (3, 5, 5), (4, 7, 1), (6, 7, 1), (7, 8, 3)]
+Current MST Weight: 16
+Added edge 0 - 6 with weight 7 to MST.
 Added edge 2 - 3 with weight 6 to MST.
 
-MST found with Boruvka's algorithm. MST edges (node1, node2, weight): (0, 1, 4)
-(0, 6, 7) (2, 3, 6) (2, 4, 2) (3, 5, 5) (4, 7, 1) (6, 7, 1) (7, 8, 3) MST
-weight: 29
+MST found with Boruvka's algorithm.
+MST edges (node1, node2, weight):
+    (0, 1, 4)
+    (0, 6, 7)
+    (2, 3, 6)
+    (2, 4, 2)
+    (3, 5, 5)
+    (4, 7, 1)
+    (6, 7, 1)
+    (7, 8, 3)
+MST weight: 29
+```
 
-````
 </details>
 
 ## Usage
@@ -60,7 +75,7 @@ Run the following command from the [project root](./) directory:
 
 ```bash
 uv sync --dev
-````
+```
 
 ### Running the Application
 
