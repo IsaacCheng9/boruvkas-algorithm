@@ -16,7 +16,7 @@ An implementation of Boruvka's algorithm to find a minimum spanning tree in a gr
 ```
 Finding MST with Boruvka's algorithm:
 Vertices: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-Edges (vertex_1, vertex_2, weight):
+Edges (node1, node2, weight):
     (0, 1, 4)
     (0, 6, 7)
     (1, 2, 9)
@@ -50,7 +50,7 @@ Added edge 0 - 6 with weight 7 to MST.
 Added edge 2 - 3 with weight 6 to MST.
 
 MST found with Boruvka's algorithm.
-MST edges (vertex_1, vertex_2, weight):
+MST edges (node1, node2, weight):
     (0, 1, 4)
     (0, 6, 7)
     (2, 3, 6)
