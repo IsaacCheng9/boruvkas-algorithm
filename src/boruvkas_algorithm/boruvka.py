@@ -5,6 +5,8 @@ Implement Boruvka's algorithm for finding the minimum spanning tree of a graph.
 import matplotlib.pyplot as plt
 import networkx as nx
 
+from boruvkas_algorithm.union_find import UnionFind
+
 
 class Graph:
     """A graph that contains nodes and edges."""
@@ -78,69 +80,23 @@ class Graph:
 
 def find_mst_with_boruvkas_algorithm(
     graph: Graph,
+    union_find: UnionFind | None = None,
 ) -> tuple[int, list[tuple[int, int, int]]]:
     """
     Finds the minimum spanning tree (MST) of a graph using Boruvka's algorithm.
 
     Args:
         graph: The graph to find the MST of.
+        union_find: Optional UnionFind instance for tracking components. If not
+                    provided, a new one will be created.
 
     Returns:
         A tuple containing the total weight of the MST and a list of the
         edges in the MST.
     """
-
-    def find(node: int) -> int:
-        """
-        Finds the root parent of the node using path compression.
-
-        Args:
-            node: The node to find the root parent of.
-
-        Returns:
-            The root parent of the node.
-        """
-        cur_parent = parent[node]
-        while cur_parent != parent[cur_parent]:
-            # Compress the links as we go up the chain of parents to make
-            # it faster to traverse in the future - amortised O(a(n)) time,
-            # where a(n) is the inverse Ackermann function.
-            parent[cur_parent] = parent[parent[cur_parent]]
-            cur_parent = parent[cur_parent]
-        return cur_parent
-
-    def union(node1: int, node2: int) -> bool:
-        """
-        Combines the two nodes into the larger segment.
-
-        Args:
-            node1: The first node to combine.
-            node2: The second node to combine.
-
-        Returns:
-            True if the nodes were combined, False if they were already in the
-            same segment.
-        """
-        root1 = find(node1)
-        root2 = find(node2)
-        # If they have the same root parent, they're already connected.
-        if root1 == root2:
-            return False
-
-        # Combine the two nodes into the larger segment based on the rank.
-        if rank[root1] > rank[root2]:
-            parent[root2] = root1
-            rank[root1] += rank[root2]
-        else:
-            parent[root1] = root2
-            rank[root2] += rank[root1]
-        return True
-
     num_vertices = len(graph.vertices)
-    # Each node is its own parent initially.
-    parent: list[int] = list(range(num_vertices))
-    # Each tree has size 1 (itself) initially.
-    rank: list[int] = [1] * num_vertices
+    if union_find is None:
+        union_find = UnionFind(num_vertices)
 
     print("\nFinding MST with Boruvka's algorithm:")
     graph.print_graph_info()
@@ -164,7 +120,7 @@ def find_mst_with_boruvkas_algorithm(
         ] * num_vertices
         for edge in graph.edges:
             node1, node2, weight = edge
-            comp1, comp2 = find(node1), find(node2)
+            comp1, comp2 = union_find.find(node1), union_find.find(node2)
 
             if comp1 != comp2:
                 current_min1 = min_edge_per_component[comp1]
@@ -178,10 +134,10 @@ def find_mst_with_boruvkas_algorithm(
         for edge in min_edge_per_component:
             if edge is not None:
                 node1, node2, weight = edge
-                if find(node1) != find(node2):
+                if union_find.find(node1) != union_find.find(node2):
                     mst_edges.append(edge)
                     mst_weight += weight
-                    union(node1, node2)
+                    union_find.union(node1, node2)
                     num_components -= 1
                     print(f"Added edge {node1} - {node2} with weight {weight} to MST.")
 
